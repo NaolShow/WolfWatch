@@ -18,7 +18,10 @@ WolfWatch is available in several languages, for example:
                                                                                                                   
 To install WolfWatch (or update it) You simply need to download                                                     
 the installation file available in the "releases" tab, you must                                                     
-then follow the installation wizard                                                                               
+then follow the installation wizard       
+
+File:
+https://github.com/NaolShow/WolfWatch/releases
                                                                                                                   
 # Modify                                                                                                                  
                                                                                                                               
