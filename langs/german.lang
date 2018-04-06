@@ -1,0 +1,56 @@
+// Französische Übersetzung der Software WolfWatch von Loan. J (NaolShow) 
+// ist diese Sprachdatei beseitigt und in jedem Werfen zu rekonstruieren
+
+// --------- Andere ----------
+
+showfiles: Dateien anzeigen
+settings: Einstellungen
+informations: Informationen
+
+yes: Ja
+no: Nicht
+
+// ---------- die Einstellungen ----------
+generalsettings: Allgemeine Einstellungen
+videoplayersettings: Einstellungen für Videoplayer und Wiedergabelisten
+
+// Allgemeine Einstellungen
+language: Sprache
+autoupdates: Automatische Updates
+
+//  Einstellungen für Videoplayer und Wiedergabelisten
+stretchtofit: Zur Anpassung dehnen
+sortvideoslist: Sortieren der Videoliste
+
+// Disable
+weightofplaylists: Gewicht der Playlists
+donation: Die {type}-Adresse des Erstellers wurde in die Zwischenablage kopiert!
+
+// ---------- Nachrichtenbox ----------
+newversion: Eine neue Version ist verfügbar, klicken Sie auf OK, um sie herunterzuladen!
+
+playlistexist: Dieser playlist existiert schon
+videoexist: Dieses Video existiert bereits
+selectvideo: Wählen Sie ein Video bitte aus
+selectplaylist: Bitte wählen Sie eine Playlist
+deletevideo: Möchtest du dieses Video löschen?
+deleteplaylist: Möchten Sie diese Playlist löschen?
+
+// ---------- Wiedergabelisten ----------
+
+// Texte
+playlists: Wiedergabelisten
+playlistslist: Liste von playlists
+playlistname: Namen der playlist
+
+// Kontextmenüleiste
+playvideo: Sieh dir das Video an
+addvideo: Füge ein Video hinzu
+removevideo: Video löschen
+editvideo: Video bearbeiten
+exportvideo: Video exportieren
+
+addplaylist: Einen playlist hinzufügen
+removeplaylist: Den playlist beseitigen
+editplaylist: Den playlist ändern
+exportplaylist: Den playlist ausführen

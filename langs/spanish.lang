@@ -1,0 +1,56 @@
+// Traducción al español de software WolfWatch por Loan.J (NaolShow)
+// Este archivo de idioma se elimina y vuelve a crear en cada lanzamiento
+
+// --------- Otros ----------
+
+showfiles: Mostrar archivos
+settings: Configuraciones
+informations: Información
+
+yes: Sí
+no: No
+
+// ---------- Configuraciones ----------
+generalsettings: Configuraciones generales
+videoplayersettings: Configuración de reproductor de video y listas de reproducción
+
+// Configuraciones generales
+language: Idioma
+autoupdates: Actualizaciones automáticas
+
+//  Configuración de reproductor de video y listas de reproducción
+stretchtofit: Estirar para encajar
+sortvideoslist: Ordenar lista de videos
+
+// Disable
+weightofplaylists: Peso de listas de reproducción
+donation: ¡La dirección de {type} del creador se ha copiado en el portapapeles!
+
+// ---------- Buzon de mensaje ----------
+newversion: Una nueva versión está disponible, haga clic en Aceptar para descargarla.
+
+playlistexist: Esta lista de reproducción ya existe
+videoexist: Este video ya existe
+selectvideo: Seleccione un video
+selectplaylist: Seleccione una lista de reproducción
+deletevideo: ¿Quieres eliminar este video?
+deleteplaylist: ¿Quieres eliminar esta lista de reproducción?
+
+// ---------- Las listas de reproducción ----------
+
+// Textos
+playlists: Las listas de reproducción
+playlistslist: Lista de listas de reproducción
+playlistname: Nombre de la lista de reproducción
+
+// Tira de menú contextual
+playvideo: Mira el video
+addvideo: Agrega un video
+removevideo: Eliminar video
+editvideo: Editar video
+exportvideo: Exportar video
+
+addplaylist: Agregar una lista de reproducción
+removeplaylist: Eliminar lista de reproducción
+editplaylist: Editar lista de reproducción
+exportplaylist: Exportar lista de reproducción
