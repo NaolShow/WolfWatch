@@ -1,0 +1,11 @@
+// Please don't change settings in this file!
+
+// General settings
+lang: english
+autoupdates: true
+
+// Playlists settings
+sort_videos_list: true
+
+// Video player settings
+stretch_to_fit: true
