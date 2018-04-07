@@ -1,0 +1,14 @@
+// Please don't change settings in this file!
+
+version: WolfWatchVersion
+
+// General settings
+lang: English
+theme: Light
+autoupdates: true
+
+// Playlists settings
+sort_videos_list: true
+
+// Video player settings
+stretch_to_fit: true
