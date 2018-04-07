@@ -1,33 +1,33 @@
 // Traduction Française du logiciel WolfWatch par Loan.J (NaolShow)
 // Ce fichier de langue est supprimé et recréer à chaque lancement
 
-// --------- Autres ----------
-
-showfiles: Afficher les fichiers
-settings: Paramètres
-informations: Informations
-
-yes: Oui
-no: Non
-
 // ---------- Paramètres ----------
+settings: Paramètres
+
 generalsettings: Paramètres généraux
 videoplayersettings: Paramètres du lecteur vidéo et des playlists
+advancedsettings: Paramètres avancés
 
 // Paramètres généraux
 language: Langage
-autoupdates: Mises à jour automatiques
+autoupdates: Vérifier à chaque lancement si une mise à jour est disponible
 
 //  Paramètres du lecteur vidéo et des playlists
-stretchtofit: S'étirer pour s'adapter
-sortvideoslist: Trier la liste des vidéos
+stretchtofit: Étirer la vidéo pour s'adapter à l'écran
+sortvideoslist: Trier la liste des vidéos et des playlists
+
+// Paramètres avancés
+showfiles: Afficher les fichiers
+resetfiles: Réinitialiser les fichiers
 
 // Disable
-weightofplaylists: Poids des playlists
 donation: L'adresse {type} du créateur a été copié dans le presse papier !
 
 // ---------- Boîtes de dialogues ----------
 newversion: Une nouvelle version est disponible, cliquez sur OK pour la télécharger!
+
+deletefiles: Voulez-vous réinitialiser le logiciel?
+restartsoftware: Veuillez redémarrer le logiciel
 
 playlistexist: Cette playlist existe déjà
 videoexist: Cette vidéo existe déjà
@@ -41,7 +41,9 @@ deleteplaylist: Voulez vous supprimer cette playlist ?
 // Textes
 playlists: Playlists
 playlistslist: Liste des playlists
+
 playlistname: Nom de la playlist
+videoname: Nom de la vidéo
 
 // Menus déroulants
 playvideo: Regarder la vidéo
