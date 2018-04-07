@@ -1,7 +1,10 @@
 // Please don't change settings in this file!
 
+version: WolfWatchVersion
+
 // General settings
-lang: english
+lang: English
+theme: Light
 autoupdates: true
 
 // Playlists settings
