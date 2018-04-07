@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,7 +26,7 @@ namespace WolfWatch
         public static String WWPath = Application.StartupPath + "\\";
         public static String PlaylistPath = WWPath + "Playlists\\";
         public static String SettingsPath = WWPath + "Settings\\";
-        public static String SettingFile = SettingsPath + "settings.settings";
+        public static String SettingsFile = SettingsPath + "settings.settings";
 
         public static String WolfWatchVersion = Application.ProductVersion;
 
@@ -47,20 +48,9 @@ namespace WolfWatch
 
             await Task.Delay(1);
 
-            // Set window
-            this.Text = "WolfWatch v" + WolfWatchVersion;
             // Set up players
             WMP.uiMode = "full";
             WMP.enableContextMenu = true;
-
-            // Playlists
-            setPlaylistsList();
-
-            // Load settings to software
-            applySettings();
-
-            // Check for updates
-            checkForUpdates();
 
             // Show front
             this.BringToFront();
@@ -69,24 +59,70 @@ namespace WolfWatch
         /**
           * 
           * 
-          *  CHECK FOR UPDATES
+          *  GET INTERNET CONNECTION
           * 
           * 
           **/
 
+        [DllImport("wininet.dll")]
+        private extern static bool InternetGetConnectedState(out int Description, int ReservedValue);
+
+        public bool IsConnectedToInternet()
+        {
+            int Desc;
+            return InternetGetConnectedState(out Desc, 0);
+        }
+
+        /**
+          * 
+          * 
+          *  CHECK FOR UPDATES AND UPDATES
+          * 
+          * 
+          **/
+
+        #region "Merge files"
+
+        public void UpdateFiles()
+        {
+            // Settings file
+            try
+            {
+                // Settings file
+                String settingsVersion;
+                try { settingsVersion = WolfLib.Rasu.Get(SettingsFile, "version"); }
+                catch { settingsVersion = "1.0"; }
+                if (settingsVersion != WolfWatchVersion)
+                {
+                    String newSettings = SettingsPath + "NewSettings" + WolfWatchVersion + ".settings";
+                    File.WriteAllText(newSettings, Resources.settings);
+                    WolfLib.Rasu.MergeFile(SettingsFile, newSettings);
+                    File.Delete(SettingsFile);
+                    File.Move(newSettings, SettingsFile);
+                    WolfLib.Rasu.Set(SettingsFile, "version", WolfWatchVersion);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error");
+            }
+}
+
+#endregion
+
         #region "Check for updates"
 
         // Check for updates
-        public async static void checkForUpdates()
+        public async void checkForUpdates()
         {
             await Task.Delay(1);
-            if (WolfLib.Rasu.Get(SettingFile, "autoupdates") == "true")
+            if (WolfLib.Rasu.Get(SettingsFile, "autoupdates") == "true")
             {
                 String version = WolfLib.Web.DownloadString("https://dl.dropboxusercontent.com/s/e9sqmj0k4gtgp4u/version.txt?dl=0");
                 if (version != WolfWatchVersion)
                 {
                     MessageBox.Show(newVersion, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    System.Diagnostics.Process.Start("http://towolf.livehost.fr/");
+                    System.Diagnostics.Process.Start("https://github.com/NaolShow/WolfWatch/releases");
                 }
             }
         }
@@ -111,38 +147,46 @@ namespace WolfWatch
         public static String deleteVideo;
         public static String donation;
         public static String newVersion;
+        public static String deletefiles;
+        public static String restartsoftware;
 
         public void setLang(String lang)
         {
             try
             {
-                String path = SettingsPath + lang + ".lang";
+                String path = SettingsPath + lang.ToLower() + ".lang";
 
                 // Label
                 playlists_playlistslist.Text = WolfLib.Rasu.Get(path, "playlistslist") + ":";
-                //settings_weightofplaylists.Text = WolfLib.Rasu.Get(path, "weightofplaylists") + ":";
 
                 editplaylist_editplaylist.Text = WolfLib.Rasu.Get(path, "editplaylist") + ":";
                 editvideo_editvideobutton.Text = WolfLib.Rasu.Get(path, "editvideo") + ":";
 
                 addplaylist_addplaylist.Text = WolfLib.Rasu.Get(path, "addplaylist") + ":";
-                addplaylist_playlistname.Text = WolfLib.Rasu.Get(path, "playlistname");
 
-                // Group box
-                settings_generalsettingsgroupbox.Text = WolfLib.Rasu.Get(path, "generalsettings");
-                settings_langgroupbox.Text = WolfLib.Rasu.Get(path, "language");
-                settings_autoupdatesgroupbox.Text = WolfLib.Rasu.Get(path, "autoupdates");
-                settings_videoplayersettingsgroupbox.Text = WolfLib.Rasu.Get(path, "videoplayersettings");
-                settings_stretchtofitgroupbox.Text = WolfLib.Rasu.Get(path, "stretchtofit");
-                settings_sortvideoslistgroupbox.Text = WolfLib.Rasu.Get(path, "sortvideoslist");
-                //settings_informations.Text = WolfLib.Rasu.Get(path, "informations");
+                addplaylist_playlistname.WaterMark = WolfLib.Rasu.Get(path, "playlistname");
+                editplaylist_playlistname.WaterMark = WolfLib.Rasu.Get(path, "playlistname");
+                editvideo_videoname.WaterMark = WolfLib.Rasu.Get(path, "videoname");
+
+                // Settings
+                settings_advancedsettings.Text = WolfLib.Rasu.Get(path, "advancedsettings");
+                settings_generalsettings.Text = WolfLib.Rasu.Get(path, "generalsettings");
+                settings_videoplayersettings.Text = WolfLib.Rasu.Get(path, "videoplayersettings");
+
+                settings_lang.Text = WolfLib.Rasu.Get(path, "language");
+                settings_autoupdates.Text = WolfLib.Rasu.Get(path, "autoupdates");
+
+                settings_stretchtofit.Text = WolfLib.Rasu.Get(path, "stretchtofit");
+                settings_sortvideolist.Text = WolfLib.Rasu.Get(path, "sortvideoslist");
+
+                settings_showfiles.Text = WolfLib.Rasu.Get(path, "showfiles");
+                settings_resetfiles.Text = WolfLib.Rasu.Get(path, "resetfiles");
 
                 // Buttons
                 addplaylist_addplaylistbutton.Text = WolfLib.Rasu.Get(path, "addplaylist");
                 editplaylist_editplaylistbutton.Text = WolfLib.Rasu.Get(path, "editplaylist");
                 editvideo_editvideobutton.Text = WolfLib.Rasu.Get(path, "editvideo");
-                settings_showfiles.Text = WolfLib.Rasu.Get(path, "showfiles");
-
+                
                 // Tab pages
                 tabAddPlaylist.Text = WolfLib.Rasu.Get(path, "addplaylist");
                 tabEditPlaylist.Text = WolfLib.Rasu.Get(path, "editplaylist");
@@ -158,6 +202,8 @@ namespace WolfWatch
                 deleteVideo = WolfLib.Rasu.Get(path, "deletevideo");
                 donation = WolfLib.Rasu.Get(path, "donation");
                 newVersion = WolfLib.Rasu.Get(path, "newversion");
+                deletefiles = WolfLib.Rasu.Get(path, "deletefiles");
+                restartsoftware = WolfLib.Rasu.Get(path, "restartsoftware");
 
                 // Context menu
                 addPlaylistToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "addplaylist");
@@ -385,10 +431,21 @@ namespace WolfWatch
             }
         }
 
+        // Cancel
+        private void editplaylist_cancel_Click(object sender, EventArgs e)
+        {
+            WWTabControl.SelectedTab = tabPlaylists;
+        }
+
         // Apply edit
         private void editplaylist_editplaylistbutton_Click(object sender, EventArgs e)
         {
-            if (editplaylist_playlistname.Text != playlistsList.Text) { Directory.Move(PlaylistPath + playlistsList.Text, PlaylistPath + editplaylist_playlistname.Text); }
+            if (editplaylist_playlistname.Text != playlistsList.Text&&editplaylist_playlistname.Text != "")
+            {
+                if (Directory.Exists(PlaylistPath + editplaylist_playlistname.Text))
+                { MessageBox.Show(playlistExist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+                Directory.Move(PlaylistPath + playlistsList.Text, PlaylistPath + editplaylist_playlistname.Text);
+            }
             WWTabControl.TabPages.Remove(tabEditPlaylist);
             setPlaylistsList();
         }
@@ -475,6 +532,12 @@ namespace WolfWatch
             }
         }
 
+        // Cancel
+        private void addplaylist_cancel_Click(object sender, EventArgs e)
+        {
+            WWTabControl.SelectedTab = tabPlaylists;
+        }
+
         #endregion        
         #region "Remove video"
 
@@ -530,12 +593,18 @@ namespace WolfWatch
             }
         }
 
+        // Cancel
+        private void editvideo_cancel_Click(object sender, EventArgs e)
+        {
+            WWTabControl.SelectedTab = tabPlaylists;
+        }
+
         // Apply edit
         private void editvideo_editvideobutton_Click(object sender, EventArgs e)
         {
             String VideoInformations = PlaylistPath + playlistsList.Text + "\\" + inPlaylistList.GetItemText(inPlaylistList.SelectedItem) + ".info";
             String Video = PlaylistPath + playlistsList.Text + "\\" + inPlaylistList.GetItemText(inPlaylistList.SelectedItem) + WolfLib.Rasu.Get(VideoInformations, "video_extension");
-            if (editvideo_videoname.Text != inPlaylistList.GetItemText(inPlaylistList.SelectedItem))
+            if (editvideo_videoname.Text != inPlaylistList.GetItemText(inPlaylistList.SelectedItem)&&editvideo_videoname.Text != "")
             {
                 File.Move(Video, PlaylistPath + playlistsList.Text + "\\" + editvideo_videoname.Text + WolfLib.Rasu.Get(VideoInformations, "video_extension"));
                 File.Move(VideoInformations, PlaylistPath + playlistsList.Text + "\\" + editvideo_videoname.Text + ".info");
@@ -588,19 +657,21 @@ namespace WolfWatch
 
         #region "Set settings"
 
-        private void applySettings()
+        public void applySettings()
         {
             langApplySettings();
+            themeApplySettings();
             stretchToFitApplySettings();
             sortVideosListFitApplySettings();
         }
 
         private void loadSettings()
         {
-            setRadioButtonLang();
-            setRadioButtonAutoUpdates();
-            setRadioButtonStretchToFit();
-            setRadioButtonSortVideosList();
+            setComboBoxLang();
+            setComboBoxTheme();
+            setCheckBoxAutoUpdates();
+            setCheckBoxStretchToFit();
+            setCheckBoxSortVideoList();
         }
 
         #endregion
@@ -608,43 +679,56 @@ namespace WolfWatch
         #region "Lang"
 
         // Set default checked
-        private void setRadioButtonLang()
+        private void setComboBoxLang()
         {
-            String lang = WolfLib.Rasu.Get(SettingFile, "lang");
-            if (lang == "english") { settings_english.Checked = true; }
-            else if (lang == "french") { settings_french.Checked = true; }
-            else if (lang == "german") { settings_german.Checked = true; }
-            else if (lang == "spanish") { settings_spanish.Checked = true; }
+            settings_langcombo.Text = WolfLib.Rasu.Get(SettingsFile, "lang");
         }
 
         // Apply settings
         private void langApplySettings()
         {
-            setLang(WolfLib.Rasu.Get(SettingFile, "lang"));
+            setLang(WolfLib.Rasu.Get(SettingsFile, "lang"));
         }
 
         // Change language
-        private void settings_english_CheckedChanged(object sender, EventArgs e)
+        private void settings_langcombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            WolfLib.Rasu.Set(SettingFile, "lang", "english");
+            WolfLib.Rasu.Set(SettingsFile, "lang", settings_langcombo.Text);
             applySettings();
         }
 
-        private void settings_french_CheckedChanged(object sender, EventArgs e)
+        #endregion
+        #region "Theme"
+
+        // Set default checked
+        private void setComboBoxTheme()
         {
-            WolfLib.Rasu.Set(SettingFile, "lang", "french");
-            applySettings();
+            settings_themecombo.Text = WolfLib.Rasu.Get(SettingsFile, "theme");
         }
 
-        private void settings_german_CheckedChanged(object sender, EventArgs e)
+        // Apply settings
+        private void themeApplySettings()
         {
-            WolfLib.Rasu.Set(SettingFile, "lang", "german");
-            applySettings();
+            String theme = WolfLib.Rasu.Get(SettingsFile, "theme").ToLower();
+            if (theme == "light")
+            {
+                WWTabControl.Theme = MetroFramework.MetroThemeStyle.Light;
+                StyleManager.Theme = MetroFramework.MetroThemeStyle.Light;
+                inPlaylistList.BackColor = Color.White;
+            }
+            else if (theme == "dark")
+            {
+                WWTabControl.Theme = MetroFramework.MetroThemeStyle.Dark;
+                StyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
+                inPlaylistList.BackColor = Color.Black;
+            }
+            else { WolfLib.Rasu.Set(SettingsFile, "theme", "Light"); themeApplySettings(); }
         }
 
-        private void settings_spanish_CheckedChanged(object sender, EventArgs e)
+        // Change theme
+        private void settings_themecombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            WolfLib.Rasu.Set(SettingFile, "lang", "spanish");
+            WolfLib.Rasu.Set(SettingsFile, "theme", settings_themecombo.Text);
             applySettings();
         }
 
@@ -652,17 +736,15 @@ namespace WolfWatch
         #region "Auto updates"
 
         // Set default checked
-        private void setRadioButtonAutoUpdates()
+        private void setCheckBoxAutoUpdates()
         {
-            if (WolfLib.Rasu.Get(SettingFile, "autoupdates") == "true") { settings_autoupdates_switch.Checked = true; }
-            else { settings_autoupdates_switch.Checked = false; }
+            if (WolfLib.Rasu.Get(SettingsFile, "autoupdates").ToLower() == "true") { settings_autoupdates.Checked = true; }
+            else { settings_autoupdates.Checked = false; }
         }
 
-        private void settings_autoupdates_switch_CheckedChanged(object sender, EventArgs e)
+        private void settings_autoupdates_CheckedChanged(object sender, EventArgs e)
         {
-            if (settings_autoupdates_switch.Checked == true)
-            { WolfLib.Rasu.Set(SettingFile, "autoupdates", "true"); }
-            else { WolfLib.Rasu.Set(SettingFile, "autoupdates", "false"); }
+            WolfLib.Rasu.Set(SettingsFile, "autoupdates", settings_autoupdates.Checked.ToString());
             applySettings();
         }
 
@@ -684,11 +766,32 @@ namespace WolfWatch
         }
 
         #endregion
-        #region "Advanced buttons"
+        #region "Advanced settings"
 
+        // Show files
         private void settings_showfiles_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(WWPath);
+        }
+
+        // Reset software (files)
+        private void settings_resetfiles_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show(deletefiles, "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    WMP.URL = "";
+                    Directory.Delete(PlaylistPath, true);
+                    Directory.Delete(SettingsPath, true);
+                    MessageBox.Show(restartsoftware);
+                    Environment.Exit(0);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error");
+            }
         }
 
         #endregion
@@ -696,25 +799,25 @@ namespace WolfWatch
         #region "Sort videos list"
 
         // Set default checked
-        private void setRadioButtonSortVideosList()
+        private void setCheckBoxSortVideoList()
         {
-            if (WolfLib.Rasu.Get(SettingFile, "sort_videos_list") == "true") { settings_sortvideoslist_switch.Checked = true; }
-            else { settings_sortvideoslist_switch.Checked = false; }
+            if (WolfLib.Rasu.Get(SettingsFile, "sort_videos_list").ToLower() == "true") { settings_sortvideolist.Checked = true; }
+            else { settings_sortvideolist.Checked = false; }
         }
 
         // Apply settings
         private void sortVideosListFitApplySettings()
         {
-            if (WolfLib.Rasu.Get(SettingFile, "sort_videos_list") == "true")
-            { inPlaylistList.Sorted = true; }
+            if (WolfLib.Rasu.Get(SettingsFile, "sort_videos_list").ToLower() == "true")
+            { inPlaylistList.Sorted = true; playlistsList.Sorted = true; }
             else { inPlaylistList.Sorted = false; }
         }
 
-        private void settings_sortvideoslist_switch_CheckedChanged(object sender, EventArgs e)
+        private void settings_sortvideolist_CheckedChanged(object sender, EventArgs e)
         {
-            if (settings_sortvideoslist_switch.Checked == true)
-            { WolfLib.Rasu.Set(SettingFile, "sort_videos_list", "true"); }
-            else { WolfLib.Rasu.Set(SettingFile, "sort_videos_list", "false"); }
+            if (settings_sortvideolist.Checked == true)
+            { WolfLib.Rasu.Set(SettingsFile, "sort_videos_list", "True"); }
+            else { WolfLib.Rasu.Set(SettingsFile, "sort_videos_list", "False"); }
             applySettings();
         }
 
@@ -722,25 +825,25 @@ namespace WolfWatch
         #region "Stretch to fit"
 
         // Set default checked
-        private void setRadioButtonStretchToFit()
+        private void setCheckBoxStretchToFit()
         {
-            if (WolfLib.Rasu.Get(SettingFile, "stretch_to_fit") == "true") { settings_stretchtofit_switch.Checked = true; }
-            else { settings_stretchtofit_switch.Checked = false; }
+            if (WolfLib.Rasu.Get(SettingsFile, "stretch_to_fit").ToLower() == "true") { settings_stretchtofit.Checked = true; }
+            else { settings_stretchtofit.Checked = false; }
         }
 
         // Apply settings
         private void stretchToFitApplySettings()
         {
-            if (WolfLib.Rasu.Get(SettingFile, "stretch_to_fit") == "true")
+            if (WolfLib.Rasu.Get(SettingsFile, "stretch_to_fit").ToLower() == "true")
             { WMP.stretchToFit = true; }
             else { WMP.stretchToFit = false; }
         }
 
-        private void settings_stretchtofit_switch_CheckedChanged(object sender, EventArgs e)
+        private void settings_stretchtofit_CheckedChanged(object sender, EventArgs e)
         {
-            if (settings_stretchtofit_switch.Checked == true)
-            { WolfLib.Rasu.Set(SettingFile, "stretch_to_fit", "true"); }
-            else { WolfLib.Rasu.Set(SettingFile, "stretch_to_fit", "false"); }
+            if (settings_stretchtofit.Checked == true)
+            { WolfLib.Rasu.Set(SettingsFile, "stretch_to_fit", "True"); }
+            else { WolfLib.Rasu.Set(SettingsFile, "stretch_to_fit", "False"); }
             applySettings();
         }
 
@@ -768,6 +871,7 @@ namespace WolfWatch
             {
                 WWTabControl.TabPages.Remove(tabAddPlaylist);
                 WWTabControl.TabPages.Remove(tabEditPlaylist);
+                WWTabControl.TabPages.Remove(tabEditVideo);
             }
         }
 
@@ -775,11 +879,15 @@ namespace WolfWatch
 
         #endregion
 
-
         // Close form
         private void WolfWatchMetro_FormClosed(object sender, FormClosedEventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void informations_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://towolf.livehost.fr/");
         }
     }
 }

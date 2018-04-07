@@ -68,6 +68,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SplashScreen";
             this.Resizable = false;
+            this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.image.ResumeLayout(false);
             this.ResumeLayout(false);
 

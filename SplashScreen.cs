@@ -24,7 +24,7 @@ namespace WolfWatch
         private async void SplashScreenStart()
         {
             await Task.Delay(500);
-            Form WW = new WolfWatchMetro();
+            WolfWatchMetro WW = new WolfWatchMetro();
 
             // Directory
             if (!Directory.Exists(WolfWatchMetro.WWPath))
@@ -41,10 +41,10 @@ namespace WolfWatch
             }
 
             // Files
-            if (!File.Exists(WolfWatchMetro.SettingFile))
+            if (!File.Exists(WolfWatchMetro.SettingsFile))
             {
-                File.Create(WolfWatchMetro.SettingFile).Dispose();
-                File.WriteAllText(WolfWatchMetro.SettingFile, WolfWatchMetro.settingsResources);
+                File.Create(WolfWatchMetro.SettingsFile).Dispose();
+                File.WriteAllText(WolfWatchMetro.SettingsFile, WolfWatchMetro.settingsResources);
             }
 
             // Files
@@ -75,6 +75,24 @@ namespace WolfWatch
             }
 
             #endregion
+
+            // Check for updates
+            if (WW.IsConnectedToInternet() == true)
+            {
+                WW.checkForUpdates();
+            }
+
+            // Update files
+            WW.UpdateFiles();
+
+            // Style manager
+            WW.StyleManager = WW.metroStyleManager;
+
+            // Load settings to software
+            WW.applySettings();
+
+            // Playlists
+            WW.setPlaylistsList();
 
             // Start software
             this.Hide();
