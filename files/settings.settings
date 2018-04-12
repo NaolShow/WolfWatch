@@ -3,6 +3,10 @@
 version: WolfWatchVersion
 
 // General settings
+// German: 0
+// English: 1
+// Spanish: 2
+// French: 3
 lang: English
 theme: Light
 autoupdates: true

@@ -11,6 +11,12 @@ advancedsettings: Advanced settings
 // General settings
 language: Language
 autoupdates: Check at each launch if an update is available	
+manualupdatecheck: Manual update check
+
+french: French
+english: English
+german: German
+spanish: Spanish
 
 //  Video player and playlists settings
 stretchtofit: Stretch the video to fit the screen
@@ -24,7 +30,9 @@ resetfiles: Reset files
 donation: The {type} address of the creator has been copied to the clipboard!
 
 // ---------- Message box ----------
-newversion: A new version is available, click OK to go to download it!
+newversion: A new version is available, click YES to go to download it!
+nonewversion: No new version is available!
+errorconnection: A connection error has occurred to determine if a new version of the software is available, the timeout is exceeded, please try again later.
 
 deletefiles: Do you want to reset the software?
 restartsoftware: Please restart the software

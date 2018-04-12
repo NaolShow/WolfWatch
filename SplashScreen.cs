@@ -76,12 +76,6 @@ namespace WolfWatch
 
             #endregion
 
-            // Check for updates
-            if (WW.IsConnectedToInternet() == true)
-            {
-                WW.checkForUpdates();
-            }
-
             // Update files
             WW.UpdateFiles();
 
@@ -90,6 +84,7 @@ namespace WolfWatch
 
             // Load settings to software
             WW.applySettings();
+            WW.loadSettings();
 
             // Playlists
             WW.setPlaylistsList();

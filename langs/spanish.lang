@@ -1,58 +1,66 @@
-// TraducciÃ³n al espaÃ±ol de software WolfWatch por Loan.J (NaolShow)
+// Traducción al español de software WolfWatch por Loan.J (NaolShow)
 // Este archivo de idioma se elimina y vuelve a crear en cada lanzamiento
 
 // ---------- Configuraciones ----------
 settings: Configuraciones
 
 generalsettings: Configuraciones generales
-videoplayersettings: ConfiguraciÃ³n de reproductor de video y listas de reproducciÃ³n
+videoplayersettings: Configuración de reproductor de video y listas de reproducción
 advancedsettings: Ajustes avanzados
 
 // Configuraciones generales
 language: Idioma
-autoupdates: Verifique en cada lanzamiento si hay una actualizaciÃ³n disponible
+autoupdates: Verifique en cada lanzamiento si hay una actualización disponible
+manualupdatecheck: Verificación de actualización manual
 
-//  ConfiguraciÃ³n de reproductor de video y listas de reproducciÃ³n
+french: Francés
+english: Inglés
+german: Alemán
+spanish: Español
+
+//  Configuración de reproductor de video y listas de reproducción
 stretchtofit: Estira el video para que se ajuste a la pantalla
-sortvideoslist: Ordene la lista de videos y listas de reproducciÃ³n
+sortvideoslist: Ordene la lista de videos y listas de reproducción
 
 // Ajustes avanzados
 showfiles: Mostrar archivos
 resetfiles: Restablecer archivos
 
 // Disable
-donation: Â¡La direcciÃ³n de {type} del creador se ha copiado en el portapapeles!
+donation: ¡La dirección de {type} del creador se ha copiado en el portapapeles!
 
 // ---------- Buzon de mensaje ----------
-newversion: Una nueva versiÃ³n estÃ¡ disponible, haga clic en Aceptar para descargarla.
+newversion: Una nueva versión está disponible, haga clic en YES para descargarla.
+nonewversion: ¡No hay una nueva versión disponible!
+errorconnection: Se ha producido un error de conexión para determinar si una nueva versión del software está disponible, se excede el tiempo de espera, vuelva a intentarlo más tarde.
 
-deletefiles: Â¿Quieres restablecer el software?
+deletefiles: ¿Quieres restablecer el software?
 restartsoftware: Por favor, reinicie el software
 
-playlistexist: Esta lista de reproducciÃ³n ya existe
+playlistexist: Esta lista de reproducción ya existe
 videoexist: Este video ya existe
 selectvideo: Seleccione un video
-selectplaylist: Seleccione una lista de reproducciÃ³n
-deletevideo: Â¿Quieres eliminar este video?
-deleteplaylist: Â¿Quieres eliminar esta lista de reproducciÃ³n?
+selectplaylist: Seleccione una lista de reproducción
+deletevideo: ¿Quieres eliminar este video?
+deleteplaylist: ¿Quieres eliminar esta lista de reproducción?
 
-// ---------- Las listas de reproducciÃ³n ----------
+// ---------- Las listas de reproducción ----------
 
 // Textos
-playlists: Las listas de reproducciÃ³n
-playlistslist: Lista de listas de reproducciÃ³n
+playlists: Las listas de reproducción
+playlistslist: Lista de listas de reproducción
 
-playlistname: Nombre de la lista de reproducciÃ³n
+playlistname: Nombre de la lista de reproducción
 videoname: Nombre del video
 
-// Tira de menÃº contextual
+// Tira de menú contextual
 playvideo: Mira el video
 addvideo: Agrega un video
 removevideo: Eliminar video
 editvideo: Editar video
 exportvideo: Exportar video
 
-addplaylist: Agregar una lista de reproducciÃ³n
-removeplaylist: Eliminar lista de reproducciÃ³n
-editplaylist: Editar lista de reproducciÃ³n
-exportplaylist: Exportar lista de reproducciÃ³n
+addplaylist: Agregar una lista de reproducción
+removeplaylist: Eliminar lista de reproducción
+editplaylist: Editar lista de reproducción
+exportplaylist: Exportar lista de reproducción

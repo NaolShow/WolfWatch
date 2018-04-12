@@ -46,12 +46,14 @@
             this.settings_theme = new MetroFramework.Controls.MetroLabel();
             this.settings_themecombo = new MetroFramework.Controls.MetroComboBox();
             this.settings_autoupdates = new MetroFramework.Controls.MetroCheckBox();
+            this.settings_manualupdatecheck = new MetroFramework.Controls.MetroButton();
             this.settings_videoplayersettings = new MetroFramework.Controls.MetroLabel();
             this.settings_stretchtofit = new MetroFramework.Controls.MetroCheckBox();
             this.settings_sortvideolist = new MetroFramework.Controls.MetroCheckBox();
             this.settings_advancedsettings = new MetroFramework.Controls.MetroLabel();
             this.settings_showfiles = new MetroFramework.Controls.MetroButton();
             this.settings_resetfiles = new MetroFramework.Controls.MetroButton();
+            this.informations = new MetroFramework.Controls.MetroLabel();
             this.tabAddPlaylist = new MetroFramework.Controls.MetroTabPage();
             this.addplaylist_cancel = new MetroFramework.Controls.MetroButton();
             this.addplaylist_addplaylistbutton = new MetroFramework.Controls.MetroButton();
@@ -82,7 +84,6 @@
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
-            this.informations = new MetroFramework.Controls.MetroLabel();
             this.WWTabControl.SuspendLayout();
             this.tabPlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WMP)).BeginInit();
@@ -234,6 +235,7 @@
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_theme);
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_themecombo);
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_autoupdates);
+            this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_manualupdatecheck);
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_videoplayersettings);
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_stretchtofit);
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_sortvideolist);
@@ -286,7 +288,6 @@
             this.settings_langcombo.Location = new System.Drawing.Point(3, 47);
             this.settings_langcombo.Name = "settings_langcombo";
             this.settings_langcombo.Size = new System.Drawing.Size(647, 25);
-            this.settings_langcombo.Sorted = true;
             this.settings_langcombo.TabIndex = 11;
             this.settings_langcombo.UseSelectable = true;
             this.settings_langcombo.SelectedIndexChanged += new System.EventHandler(this.settings_langcombo_SelectedIndexChanged);
@@ -332,12 +333,22 @@
             this.settings_autoupdates.UseSelectable = true;
             this.settings_autoupdates.CheckedChanged += new System.EventHandler(this.settings_autoupdates_CheckedChanged);
             // 
+            // settings_manualupdatecheck
+            // 
+            this.settings_manualupdatecheck.Location = new System.Drawing.Point(3, 149);
+            this.settings_manualupdatecheck.Name = "settings_manualupdatecheck";
+            this.settings_manualupdatecheck.Size = new System.Drawing.Size(235, 20);
+            this.settings_manualupdatecheck.TabIndex = 19;
+            this.settings_manualupdatecheck.Text = "Manual update check";
+            this.settings_manualupdatecheck.UseSelectable = true;
+            this.settings_manualupdatecheck.Click += new System.EventHandler(this.settings_manualupdatecheck_Click);
+            // 
             // settings_videoplayersettings
             // 
             this.settings_videoplayersettings.AutoSize = true;
             this.settings_videoplayersettings.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.settings_videoplayersettings.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.settings_videoplayersettings.Location = new System.Drawing.Point(3, 146);
+            this.settings_videoplayersettings.Location = new System.Drawing.Point(3, 172);
             this.settings_videoplayersettings.Name = "settings_videoplayersettings";
             this.settings_videoplayersettings.Size = new System.Drawing.Size(266, 25);
             this.settings_videoplayersettings.Style = MetroFramework.MetroColorStyle.Black;
@@ -348,7 +359,7 @@
             // 
             this.settings_stretchtofit.AutoSize = true;
             this.settings_stretchtofit.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.settings_stretchtofit.Location = new System.Drawing.Point(3, 174);
+            this.settings_stretchtofit.Location = new System.Drawing.Point(3, 200);
             this.settings_stretchtofit.Name = "settings_stretchtofit";
             this.settings_stretchtofit.Size = new System.Drawing.Size(197, 15);
             this.settings_stretchtofit.TabIndex = 13;
@@ -360,7 +371,7 @@
             // 
             this.settings_sortvideolist.AutoSize = true;
             this.settings_sortvideolist.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.settings_sortvideolist.Location = new System.Drawing.Point(3, 195);
+            this.settings_sortvideolist.Location = new System.Drawing.Point(3, 221);
             this.settings_sortvideolist.Name = "settings_sortvideolist";
             this.settings_sortvideolist.Size = new System.Drawing.Size(201, 15);
             this.settings_sortvideolist.TabIndex = 12;
@@ -373,7 +384,7 @@
             this.settings_advancedsettings.AutoSize = true;
             this.settings_advancedsettings.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.settings_advancedsettings.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.settings_advancedsettings.Location = new System.Drawing.Point(3, 213);
+            this.settings_advancedsettings.Location = new System.Drawing.Point(3, 239);
             this.settings_advancedsettings.Name = "settings_advancedsettings";
             this.settings_advancedsettings.Size = new System.Drawing.Size(149, 25);
             this.settings_advancedsettings.Style = MetroFramework.MetroColorStyle.Black;
@@ -382,9 +393,9 @@
             // 
             // settings_showfiles
             // 
-            this.settings_showfiles.Location = new System.Drawing.Point(3, 241);
+            this.settings_showfiles.Location = new System.Drawing.Point(3, 267);
             this.settings_showfiles.Name = "settings_showfiles";
-            this.settings_showfiles.Size = new System.Drawing.Size(130, 23);
+            this.settings_showfiles.Size = new System.Drawing.Size(130, 20);
             this.settings_showfiles.TabIndex = 2;
             this.settings_showfiles.Text = "Show files";
             this.settings_showfiles.UseSelectable = true;
@@ -392,13 +403,25 @@
             // 
             // settings_resetfiles
             // 
-            this.settings_resetfiles.Location = new System.Drawing.Point(3, 270);
+            this.settings_resetfiles.Location = new System.Drawing.Point(3, 293);
             this.settings_resetfiles.Name = "settings_resetfiles";
-            this.settings_resetfiles.Size = new System.Drawing.Size(130, 23);
+            this.settings_resetfiles.Size = new System.Drawing.Size(130, 20);
             this.settings_resetfiles.TabIndex = 15;
             this.settings_resetfiles.Text = "Reset files";
             this.settings_resetfiles.UseSelectable = true;
             this.settings_resetfiles.Click += new System.EventHandler(this.settings_resetfiles_Click);
+            // 
+            // informations
+            // 
+            this.informations.AutoSize = true;
+            this.informations.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.informations.Location = new System.Drawing.Point(3, 316);
+            this.informations.Name = "informations";
+            this.informations.Size = new System.Drawing.Size(82, 19);
+            this.informations.Style = MetroFramework.MetroColorStyle.Black;
+            this.informations.TabIndex = 18;
+            this.informations.Text = "Informations";
+            this.informations.Click += new System.EventHandler(this.informations_Click);
             // 
             // tabAddPlaylist
             // 
@@ -741,7 +764,7 @@
             // 
             // openFileDialog
             // 
-            this.openFileDialog.Filter = "File|*.mp3; *.mp4; *.wav; *.mov; *.webm; *..mkv";
+            this.openFileDialog.Filter = "Files|*.mp3; *.mp4; *.wav; *.mov; *.webm; *.mkv";
             // 
             // folderBrowserDialog
             // 
@@ -750,18 +773,6 @@
             // metroStyleManager
             // 
             this.metroStyleManager.Owner = this;
-            // 
-            // informations
-            // 
-            this.informations.AutoSize = true;
-            this.informations.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.informations.Location = new System.Drawing.Point(3, 296);
-            this.informations.Name = "informations";
-            this.informations.Size = new System.Drawing.Size(166, 38);
-            this.informations.Style = MetroFramework.MetroColorStyle.Black;
-            this.informations.TabIndex = 18;
-            this.informations.Text = "Software created by Loan.J\r\nhttp://towolf.livehost.fr/";
-            this.informations.Click += new System.EventHandler(this.informations_Click);
             // 
             // WolfWatchMetro
             // 
@@ -851,5 +862,6 @@
         private MetroFramework.Controls.MetroComboBox settings_themecombo;
         private AxWMPLib.AxWindowsMediaPlayer WMP;
         private MetroFramework.Controls.MetroLabel informations;
+        private MetroFramework.Controls.MetroButton settings_manualupdatecheck;
     }
 }

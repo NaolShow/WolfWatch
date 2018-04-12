@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MetroFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -48,29 +49,20 @@ namespace WolfWatch
 
             await Task.Delay(1);
 
+            // Informations
+            informations.Text = "WolfWatch v" + WolfWatchVersion + "\n" +
+                                "By Loan.J (ToWolf)";
+
             // Set up players
             WMP.uiMode = "full";
             WMP.enableContextMenu = true;
 
             // Show front
             this.BringToFront();
-        }
 
-        /**
-          * 
-          * 
-          *  GET INTERNET CONNECTION
-          * 
-          * 
-          **/
-
-        [DllImport("wininet.dll")]
-        private extern static bool InternetGetConnectedState(out int Description, int ReservedValue);
-
-        public bool IsConnectedToInternet()
-        {
-            int Desc;
-            return InternetGetConnectedState(out Desc, 0);
+            // Check for updates
+            if (WolfLib.Rasu.Get(SettingsFile, "autoupdates").ToLower() == "true")
+            { checkForUpdates(false); }
         }
 
         /**
@@ -94,6 +86,7 @@ namespace WolfWatch
                 catch { settingsVersion = "1.0"; }
                 if (settingsVersion != WolfWatchVersion)
                 {
+                    // Settings file
                     String newSettings = SettingsPath + "NewSettings" + WolfWatchVersion + ".settings";
                     File.WriteAllText(newSettings, Resources.settings);
                     WolfLib.Rasu.MergeFile(SettingsFile, newSettings);
@@ -104,7 +97,7 @@ namespace WolfWatch
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 }
 
@@ -113,18 +106,38 @@ namespace WolfWatch
         #region "Check for updates"
 
         // Check for updates
-        public async void checkForUpdates()
+        public async void checkForUpdates(bool boolean)
         {
-            await Task.Delay(1);
-            if (WolfLib.Rasu.Get(SettingsFile, "autoupdates") == "true")
+            try
             {
+                await Task.Delay(1);
                 String version = WolfLib.Web.DownloadString("https://dl.dropboxusercontent.com/s/e9sqmj0k4gtgp4u/version.txt?dl=0");
                 if (version != WolfWatchVersion)
                 {
-                    MessageBox.Show(newVersion, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    System.Diagnostics.Process.Start("https://github.com/NaolShow/WolfWatch/releases");
+                    if (MetroMessageBox.Show(this, newVersion, "", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start(Application.StartupPath + "\\WolfUpdater.exe");
+                        Environment.Exit(0);
+                    }
+                }
+                else
+                {
+                    if (boolean == true)
+                    {
+                        MetroMessageBox.Show(this, noNewVersion, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
             }
+            catch (Exception)
+            {
+                MetroMessageBox.Show(this, errorConnection, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Manual check
+        private void settings_manualupdatecheck_Click(object sender, EventArgs e)
+        {
+            checkForUpdates(true);
         }
 
         #endregion
@@ -147,14 +160,39 @@ namespace WolfWatch
         public static String deleteVideo;
         public static String donation;
         public static String newVersion;
+        public static String noNewVersion;
+        public static String errorConnection;
         public static String deletefiles;
         public static String restartsoftware;
 
-        public void setLang(String lang)
+        public static bool loadLang = false;
+
+        public void refreshLang()
         {
             try
             {
-                String path = SettingsPath + lang.ToLower() + ".lang";
+                loadLang = true;
+
+                // German: 0
+                // English: 1
+                // Spanish: 2
+                // French: 3
+
+                String lang;
+                int index = 2;
+
+                // Search index (null go to english)
+                if (!Int32.TryParse(WolfLib.Rasu.Get(SettingsFile, "lang"), out index))
+                { WolfLib.Rasu.Set(SettingsFile, "lang", "1"); index = 1; }
+
+                // Determine the language
+                if (index == 0) { lang = "german"; }
+                else if (index == 1) { lang = "english"; }
+                else if (index == 2) { lang = "spanish"; }
+                else if (index == 3) { lang = "french"; }
+                else { lang = ""; }
+
+                String path = SettingsPath + lang + ".lang";
 
                 // Label
                 playlists_playlistslist.Text = WolfLib.Rasu.Get(path, "playlistslist") + ":";
@@ -173,8 +211,16 @@ namespace WolfWatch
                 settings_generalsettings.Text = WolfLib.Rasu.Get(path, "generalsettings");
                 settings_videoplayersettings.Text = WolfLib.Rasu.Get(path, "videoplayersettings");
 
+                settings_langcombo.Items.Clear();
+                settings_langcombo.Items.Add(WolfLib.Rasu.Get(path, "german"));
+                settings_langcombo.Items.Add(WolfLib.Rasu.Get(path, "english"));
+                settings_langcombo.Items.Add(WolfLib.Rasu.Get(path, "spanish"));
+                settings_langcombo.Items.Add(WolfLib.Rasu.Get(path, "french"));
+                settings_langcombo.SelectedIndex = index;
+
                 settings_lang.Text = WolfLib.Rasu.Get(path, "language");
                 settings_autoupdates.Text = WolfLib.Rasu.Get(path, "autoupdates");
+                settings_manualupdatecheck.Text = WolfLib.Rasu.Get(path, "manualupdatecheck");
 
                 settings_stretchtofit.Text = WolfLib.Rasu.Get(path, "stretchtofit");
                 settings_sortvideolist.Text = WolfLib.Rasu.Get(path, "sortvideoslist");
@@ -202,6 +248,8 @@ namespace WolfWatch
                 deleteVideo = WolfLib.Rasu.Get(path, "deletevideo");
                 donation = WolfLib.Rasu.Get(path, "donation");
                 newVersion = WolfLib.Rasu.Get(path, "newversion");
+                noNewVersion = WolfLib.Rasu.Get(path, "nonewversion");
+                errorConnection = WolfLib.Rasu.Get(path, "errorconnection");
                 deletefiles = WolfLib.Rasu.Get(path, "deletefiles");
                 restartsoftware = WolfLib.Rasu.Get(path, "restartsoftware");
 
@@ -216,10 +264,12 @@ namespace WolfWatch
                 removeVideoToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "removevideo");
                 editVideoToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "editvideo");
                 exportVideoToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "exportvideo");
+
+                loadLang = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -247,7 +297,7 @@ namespace WolfWatch
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -279,7 +329,7 @@ namespace WolfWatch
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -311,7 +361,7 @@ namespace WolfWatch
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -336,17 +386,17 @@ namespace WolfWatch
                     File.WriteAllText(PlaylistPath + addplaylist_playlistname.Text + "\\playlist.playinfo", Resources.playlist);
 
                     // Exit
-                    WWTabControl.TabPages.Remove(tabAddPlaylist);
+                    refreshTabs();
                     setPlaylistsList();
                 }
                 else
                 {
-                    MessageBox.Show(playlistExist, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroMessageBox.Show(this, playlistExist, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -355,6 +405,12 @@ namespace WolfWatch
         {
             WWTabControl.TabPages.Insert(WWTabControl.TabCount, tabAddPlaylist);
             WWTabControl.SelectTab(tabAddPlaylist);
+        }
+
+        // Cancel
+        private void addplaylist_cancel_Click(object sender, EventArgs e)
+        {
+            refreshTabs();
         }
 
         #endregion
@@ -367,7 +423,7 @@ namespace WolfWatch
             {
                 if (playlistsList.Text != "")
                 {
-                    if (MessageBox.Show(deletePlaylist, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if (MetroMessageBox.Show(this, deletePlaylist, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         WMP.URL = "";
                         Directory.Delete(PlaylistPath + playlistsList.Text, true);
@@ -375,11 +431,11 @@ namespace WolfWatch
                         refreshVideoList();
                     }
                 }
-                else { MessageBox.Show(selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                else { MetroMessageBox.Show(this, selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -400,11 +456,11 @@ namespace WolfWatch
                         }
                     }
                 }
-                else { MessageBox.Show(selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                else { MetroMessageBox.Show(this, selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -423,18 +479,18 @@ namespace WolfWatch
                     WMP.URL = "";
                     editplaylist_playlistname.Text = playlistsList.Text;
                 }
-                else { MessageBox.Show(selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                else { MetroMessageBox.Show(this, selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         // Cancel
         private void editplaylist_cancel_Click(object sender, EventArgs e)
         {
-            WWTabControl.SelectedTab = tabPlaylists;
+            refreshTabs();
         }
 
         // Apply edit
@@ -443,10 +499,10 @@ namespace WolfWatch
             if (editplaylist_playlistname.Text != playlistsList.Text&&editplaylist_playlistname.Text != "")
             {
                 if (Directory.Exists(PlaylistPath + editplaylist_playlistname.Text))
-                { MessageBox.Show(playlistExist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+                { MetroMessageBox.Show(this, playlistExist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
                 Directory.Move(PlaylistPath + playlistsList.Text, PlaylistPath + editplaylist_playlistname.Text);
             }
-            WWTabControl.TabPages.Remove(tabEditPlaylist);
+            refreshTabs();
             setPlaylistsList();
         }
 
@@ -473,12 +529,12 @@ namespace WolfWatch
                 }
                 else
                 {
-                    MessageBox.Show(selectVideo, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroMessageBox.Show(this, selectVideo, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -521,21 +577,15 @@ namespace WolfWatch
 
                             refreshVideoList();
                         }
-                        else { MessageBox.Show(videoExist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                        else { MetroMessageBox.Show(this, videoExist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                     }
                 }
-                else { MessageBox.Show(selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                else { MetroMessageBox.Show(this, selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        // Cancel
-        private void addplaylist_cancel_Click(object sender, EventArgs e)
-        {
-            WWTabControl.SelectedTab = tabPlaylists;
         }
 
         #endregion        
@@ -549,7 +599,7 @@ namespace WolfWatch
                 {
                     if (inPlaylistList.GetItemText(inPlaylistList.SelectedItem) != "")
                     {
-                        if (MessageBox.Show(deleteVideo, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        if (MetroMessageBox.Show(this, deleteVideo, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
                             WMP.URL = "";
                             String SelectedVideoPath = PlaylistPath + playlistsList.Text + "\\" + inPlaylistList.GetItemText(inPlaylistList.SelectedItem);
@@ -558,13 +608,13 @@ namespace WolfWatch
                             refreshVideoList();
                         }
                     }
-                    else { MessageBox.Show(selectVideo, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    else { MetroMessageBox.Show(this, selectVideo, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
-                else { MessageBox.Show(selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                else { MetroMessageBox.Show(this, selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -583,20 +633,20 @@ namespace WolfWatch
                         WMP.URL = "";
                         editvideo_videoname.Text = inPlaylistList.GetItemText(inPlaylistList.SelectedItem);
                     }
-                    else { MessageBox.Show(selectVideo, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    else { MetroMessageBox.Show(this, selectVideo, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
-                else { MessageBox.Show(selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                else { MetroMessageBox.Show(this, selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         // Cancel
         private void editvideo_cancel_Click(object sender, EventArgs e)
         {
-            WWTabControl.SelectedTab = tabPlaylists;
+            refreshTabs();
         }
 
         // Apply edit
@@ -609,7 +659,7 @@ namespace WolfWatch
                 File.Move(Video, PlaylistPath + playlistsList.Text + "\\" + editvideo_videoname.Text + WolfLib.Rasu.Get(VideoInformations, "video_extension"));
                 File.Move(VideoInformations, PlaylistPath + playlistsList.Text + "\\" + editvideo_videoname.Text + ".info");
             }
-            WWTabControl.TabPages.Remove(tabEditVideo);
+            refreshTabs();
             refreshVideoList();
         }
 
@@ -629,13 +679,13 @@ namespace WolfWatch
                         saveFileDialog.Filter = "File|*" + VideoExtension;
                         if (saveFileDialog.ShowDialog() == DialogResult.OK) { exportVideo(inPlaylistList.GetItemText(inPlaylistList.SelectedItem), saveFileDialog.FileName); }
                     }
-                    else { MessageBox.Show(selectVideo, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    else { MetroMessageBox.Show(this, selectVideo, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
-                else { MessageBox.Show(selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                else { MetroMessageBox.Show(this, selectPlaylist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -665,9 +715,8 @@ namespace WolfWatch
             sortVideosListFitApplySettings();
         }
 
-        private void loadSettings()
+        public void loadSettings()
         {
-            setComboBoxLang();
             setComboBoxTheme();
             setCheckBoxAutoUpdates();
             setCheckBoxStretchToFit();
@@ -678,23 +727,20 @@ namespace WolfWatch
 
         #region "Lang"
 
-        // Set default checked
-        private void setComboBoxLang()
-        {
-            settings_langcombo.Text = WolfLib.Rasu.Get(SettingsFile, "lang");
-        }
-
         // Apply settings
         private void langApplySettings()
         {
-            setLang(WolfLib.Rasu.Get(SettingsFile, "lang"));
+            refreshLang();
         }
 
         // Change language
         private void settings_langcombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            WolfLib.Rasu.Set(SettingsFile, "lang", settings_langcombo.Text);
-            applySettings();
+            if (loadLang == false)
+            {
+                WolfLib.Rasu.Set(SettingsFile, "lang", settings_langcombo.SelectedIndex.ToString());
+                applySettings();
+            }
         }
 
         #endregion
@@ -715,12 +761,14 @@ namespace WolfWatch
                 WWTabControl.Theme = MetroFramework.MetroThemeStyle.Light;
                 StyleManager.Theme = MetroFramework.MetroThemeStyle.Light;
                 inPlaylistList.BackColor = Color.White;
+                inPlaylistList.ForeColor = Color.Black;
             }
             else if (theme == "dark")
             {
                 WWTabControl.Theme = MetroFramework.MetroThemeStyle.Dark;
                 StyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
-                inPlaylistList.BackColor = Color.Black;
+                inPlaylistList.BackColor = Color.FromArgb(64, 64, 64);
+                inPlaylistList.ForeColor = Color.White;
             }
             else { WolfLib.Rasu.Set(SettingsFile, "theme", "Light"); themeApplySettings(); }
         }
@@ -755,13 +803,13 @@ namespace WolfWatch
         // Donations
         private void settings_bitcoin_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(donation.Replace("{type}", "Bitcoin"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MetroMessageBox.Show(this, donation.Replace("{type}", "Bitcoin"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Clipboard.SetText("19NSXHZN19FnTArLKydzV2acwzBqpk6nNL");
         }
 
         private void settings_ether_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(donation.Replace("{type}", "Ether"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MetroMessageBox.Show(this, donation.Replace("{type}", "Ether"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Clipboard.SetText("0x5A24cF7a980165642abD9f65D9411DdA0bdb52db");
         }
 
@@ -779,18 +827,18 @@ namespace WolfWatch
         {
             try
             {
-                if (MessageBox.Show(deletefiles, "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (MetroMessageBox.Show(this, deletefiles, "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     WMP.URL = "";
                     Directory.Delete(PlaylistPath, true);
                     Directory.Delete(SettingsPath, true);
-                    MessageBox.Show(restartsoftware);
+                    MetroMessageBox.Show(this, restartsoftware, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Environment.Exit(0);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                MetroMessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -861,21 +909,24 @@ namespace WolfWatch
 
         private void WWTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Boolean refresh = true;
-            if (WWTabControl.SelectedTab == tabAddPlaylist) { refresh = false; }
-            else if (WWTabControl.SelectedTab == tabEditVideo) { refresh = false; }
-            else if (WWTabControl.SelectedTab == tabEditPlaylist) { refresh = false; }
-            else if (WWTabControl.SelectedTab == tabSettings) { loadSettings(); }
-            else if (WWTabControl.SelectedTab == tabPlaylists) { refreshVideoList(); }
-            if (refresh == true)
+            TabPage tab = WWTabControl.SelectedTab;
+            if (tab == tabPlayer || tab == tabPlaylists || tab == tabSettings) { }
+            else
             {
-                WWTabControl.TabPages.Remove(tabAddPlaylist);
-                WWTabControl.TabPages.Remove(tabEditPlaylist);
-                WWTabControl.TabPages.Remove(tabEditVideo);
+                WWTabControl.TabPages.Remove(tabPlayer);
+                WWTabControl.TabPages.Remove(tabPlaylists);
+                WWTabControl.TabPages.Remove(tabSettings);
             }
         }
 
-
+        private void refreshTabs()
+        {
+            WWTabControl.TabPages.Remove(WWTabControl.SelectedTab);
+            WWTabControl.TabPages.Insert(0, tabPlayer);
+            WWTabControl.TabPages.Insert(1, tabPlaylists);
+            WWTabControl.TabPages.Insert(2, tabSettings);
+            WWTabControl.SelectedTab = tabPlaylists;
+        }
 
         #endregion
 

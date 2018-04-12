@@ -1,40 +1,48 @@
-// FranzÃ¶sische Ãœbersetzung der Software WolfWatch von Loan. J (NaolShow) 
+// Französische Übersetzung der Software WolfWatch von Loan. J (NaolShow) 
 // ist diese Sprachdatei beseitigt und in jedem Werfen zu rekonstruieren
 
 // ---------- die Einstellungen ----------
 settings: Einstellungen
 
 generalsettings: Allgemeine Einstellungen
-videoplayersettings: Einstellungen fÃ¼r Videoplayer und Wiedergabelisten
+videoplayersettings: Einstellungen für Videoplayer und Wiedergabelisten
 advancedsettings: Erweiterte Einstellungen
 
 // Allgemeine Einstellungen
 language: Sprache
-autoupdates: ÃœberprÃ¼fen Sie bei jedem Start, ob ein Update verfÃ¼gbar ist
+autoupdates: Überprüfen Sie bei jedem Start, ob ein Update verfügbar ist
+manualupdatecheck: Manuelle Aktualisierungsprüfung
 
-//  Einstellungen fÃ¼r Videoplayer und Wiedergabelisten
+french: Französisch
+english: Englisch
+german: Deutsche
+spanish: Spanisch
+
+//  Einstellungen für Videoplayer und Wiedergabelisten
 stretchtofit: Strecken Sie das Video auf den Bildschirm aus
 sortvideoslist: Sortiere die Liste der Videos und Playlists
 
 // Erweiterte Einstellungen
 showfiles: Dateien anzeigen
-resetfiles: Dateien zurÃ¼cksetzen
+resetfiles: Dateien zurücksetzen
 
 // Disable
 donation: Die {type}-Adresse des Erstellers wurde in die Zwischenablage kopiert!
 
 // ---------- Nachrichtenbox ----------
-newversion: Eine neue Version ist verfÃ¼gbar, klicken Sie auf OK, um sie herunterzuladen!
+newversion: Eine neue Version ist verfügbar, klicken Sie auf YES, um sie herunterzuladen!
+nonewversion: Keine neue Version verfügbar!
+errorconnection: Ein Verbindungsfehler ist aufgetreten, um festzustellen, ob eine neue Version der Software verfügbar ist. Die Zeitüberschreitung wurde überschritten. Bitte versuchen Sie es später erneut.
 
-deletefiles: MÃ¶chten Sie die Software zurÃ¼cksetzen?
+deletefiles: Möchten Sie die Software zurücksetzen?
 restartsoftware: Bitte starten Sie die Software neu
 
 playlistexist: Dieser playlist existiert schon
 videoexist: Dieses Video existiert bereits
-selectvideo: WÃ¤hlen Sie ein Video bitte aus
-selectplaylist: Bitte wÃ¤hlen Sie eine Playlist
-deletevideo: MÃ¶chtest du dieses Video lÃ¶schen?
-deleteplaylist: MÃ¶chten Sie diese Playlist lÃ¶schen?
+selectvideo: Wählen Sie ein Video bitte aus
+selectplaylist: Bitte wählen Sie eine Playlist
+deletevideo: Möchtest du dieses Video löschen?
+deleteplaylist: Möchten Sie diese Playlist löschen?
 
 // ---------- Wiedergabelisten ----------
 
@@ -45,14 +53,14 @@ playlistslist: Liste von playlists
 playlistname: Namen der playlist
 videoname: Namen der videos
 
-// KontextmenÃ¼leiste
+// Kontextmenüleiste
 playvideo: Sieh dir das Video an
-addvideo: FÃ¼ge ein Video hinzu
-removevideo: Video lÃ¶schen
+addvideo: Füge ein Video hinzu
+removevideo: Video löschen
 editvideo: Video bearbeiten
 exportvideo: Video exportieren
 
-addplaylist: Einen playlist hinzufÃ¼gen
+addplaylist: Einen playlist hinzufügen
 removeplaylist: Den playlist beseitigen
-editplaylist: Den playlist Ã¤ndern
-exportplaylist: Den playlist ausfÃ¼hren
+editplaylist: Den playlist ändern
+exportplaylist: Den playlist ausführen

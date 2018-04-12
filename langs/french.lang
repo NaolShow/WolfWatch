@@ -1,39 +1,47 @@
-// Traduction FranÃ§aise du logiciel WolfWatch par Loan.J (NaolShow)
-// Ce fichier de langue est supprimÃ© et recrÃ©er Ã  chaque lancement
+// Traduction Française du logiciel WolfWatch par Loan.J (NaolShow)
+// Ce fichier de langue est supprimé et recréer à chaque lancement
 
-// ---------- ParamÃ¨tres ----------
-settings: ParamÃ¨tres
+// ---------- Paramètres ----------
+settings: Paramètres
 
-generalsettings: ParamÃ¨tres gÃ©nÃ©raux
-videoplayersettings: ParamÃ¨tres du lecteur vidÃ©o et des playlists
-advancedsettings: ParamÃ¨tres avancÃ©s
+generalsettings: Paramètres généraux
+videoplayersettings: Paramètres du lecteur vidéo et des playlists
+advancedsettings: Paramètres avancés
 
-// ParamÃ¨tres gÃ©nÃ©raux
+// Paramètres généraux
 language: Langage
-autoupdates: VÃ©rifier Ã  chaque lancement si une mise Ã  jour est disponible
+autoupdates: Vérifier à chaque lancement si une mise à jour est disponible
+manualupdatecheck: Vérification manuelle des mises à jour
 
-//  ParamÃ¨tres du lecteur vidÃ©o et des playlists
-stretchtofit: Ã‰tirer la vidÃ©o pour s'adapter Ã  l'Ã©cran
-sortvideoslist: Trier la liste des vidÃ©os et des playlists
+french: Français
+english: Anglais
+german: Allemand
+spanish: Espagnol
 
-// ParamÃ¨tres avancÃ©s
+//  Paramètres du lecteur vidéo et des playlists
+stretchtofit: Étirer la vidéo pour s'adapter à l'écran
+sortvideoslist: Trier la liste des vidéos et des playlists
+
+// Paramètres avancés
 showfiles: Afficher les fichiers
-resetfiles: RÃ©initialiser les fichiers
+resetfiles: Réinitialiser les fichiers
 
 // Disable
-donation: L'adresse {type} du crÃ©ateur a Ã©tÃ© copiÃ© dans le presse papier !
+donation: L'adresse {type} du créateur a été copié dans le presse papier !
 
-// ---------- BoÃ®tes de dialogues ----------
-newversion: Une nouvelle version est disponible, cliquez sur OK pour la tÃ©lÃ©charger!
+// ---------- Boîtes de dialogues ----------
+newversion: Une nouvelle version est disponible, cliquez sur YES pour la télécharger!
+nonewversion: Aucune nouvelle version n'est disponible!
+errorconnection: Une erreur de connexion est survenue pour déterminer si une nouvelle version du logiciel est disponible, le délai est dépassé, veuillez réessayer plus tard.
 
-deletefiles: Voulez-vous rÃ©initialiser le logiciel?
-restartsoftware: Veuillez redÃ©marrer le logiciel
+deletefiles: Voulez-vous réinitialiser le logiciel?
+restartsoftware: Veuillez redémarrer le logiciel
 
-playlistexist: Cette playlist existe dÃ©jÃ 
-videoexist: Cette vidÃ©o existe dÃ©jÃ 
-selectvideo: Veuillez selectionner une vidÃ©o
+playlistexist: Cette playlist existe déjà
+videoexist: Cette vidéo existe déjà
+selectvideo: Veuillez selectionner une vidéo
 selectplaylist: Veuillez selectionner une playlist
-deletevideo: Voulez vous supprimer cette vidÃ©o ?
+deletevideo: Voulez vous supprimer cette vidéo ?
 deleteplaylist: Voulez vous supprimer cette playlist ?
 
 // ---------- Playlists ----------
@@ -43,14 +51,14 @@ playlists: Playlists
 playlistslist: Liste des playlists
 
 playlistname: Nom de la playlist
-videoname: Nom de la vidÃ©o
+videoname: Nom de la vidéo
 
-// Menus dÃ©roulants
-playvideo: Regarder la vidÃ©o
-addvideo: Ajouter une vidÃ©o
-removevideo: Supprimer la vidÃ©o
-editvideo: Editer la vidÃ©o
-exportvideo: Exporter la vidÃ©o
+// Menus déroulants
+playvideo: Regarder la vidéo
+addvideo: Ajouter une vidéo
+removevideo: Supprimer la vidéo
+editvideo: Editer la vidéo
+exportvideo: Exporter la vidéo
 
 addplaylist: Ajouter une playlist
 removeplaylist: Supprimer la playlist
