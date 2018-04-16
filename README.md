@@ -22,7 +22,10 @@ then follow the installation wizard
 
 File:
 https://github.com/NaolShow/WolfWatch/releases
-                                                                                                                  
+
+/!\ You need .NET Framework 4.0 and above /!\
+Download link: https://www.microsoft.com/download/details.aspx?id=17851
+
 # Modify                                                                                                                  
                                                                                                                               
 You can modify, take bits of code from my software, simply by quoting me.                                                                
