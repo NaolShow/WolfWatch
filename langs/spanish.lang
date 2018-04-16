@@ -7,6 +7,7 @@ settings: Configuraciones
 generalsettings: Configuraciones generales
 videoplayersettings: Configuración de reproductor de video y listas de reproducción
 advancedsettings: Ajustes avanzados
+informations: Informaciones
 
 // Configuraciones generales
 language: Idioma
@@ -21,10 +22,19 @@ spanish: Español
 //  Configuración de reproductor de video y listas de reproducción
 stretchtofit: Estira el video para que se ajuste a la pantalla
 sortvideoslist: Ordene la lista de videos y listas de reproducción
+ascending: Ascendente
+descending: Descendente
+
+maxdropdownplaylists: Número máximo de listas de reproducción visualizadas al mismo tiempo en la lista
 
 // Ajustes avanzados
 showfiles: Mostrar archivos
 resetfiles: Restablecer archivos
+
+// Informaciones
+numberplaylists: Número de listas de reproducción
+weightplaylists: Peso de listas de reproducción
+refreshinformations: Actualizar información
 
 // Disable
 donation: ¡La dirección de {type} del creador se ha copiado en el portapapeles!
@@ -52,6 +62,12 @@ playlistslist: Lista de listas de reproducción
 
 playlistname: Nombre de la lista de reproducción
 videoname: Nombre del video
+videodescription: Descripción del video
+cancel: Cancelar
+
+filename: Nombre del archivo
+filedescription: Descripción del archivo
+fileduration: Duración del archivo
 
 // Tira de menú contextual
 playvideo: Mira el video

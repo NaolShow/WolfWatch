@@ -1,4 +1,5 @@
-﻿using MetroFramework.Properties;
+﻿using MetroFramework;
+using MetroFramework.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,77 +22,10 @@ namespace WolfWatch
             SplashScreenStart();
         }
 
-        private async void SplashScreenStart()
+        public async void SplashScreenStart()
         {
             await Task.Delay(500);
-            WolfWatchMetro WW = new WolfWatchMetro();
-
-            // Directory
-            if (!Directory.Exists(WolfWatchMetro.WWPath))
-            {
-                Directory.CreateDirectory(WolfWatchMetro.WWPath);
-            }
-            if (!Directory.Exists(WolfWatchMetro.SettingsPath))
-            {
-                Directory.CreateDirectory(WolfWatchMetro.SettingsPath);
-            }
-            if (!Directory.Exists(WolfWatchMetro.PlaylistPath))
-            {
-                Directory.CreateDirectory(WolfWatchMetro.PlaylistPath);
-            }
-
-            // Files
-            if (!File.Exists(WolfWatchMetro.SettingsFile))
-            {
-                File.Create(WolfWatchMetro.SettingsFile).Dispose();
-                File.WriteAllText(WolfWatchMetro.SettingsFile, WolfWatchMetro.settingsResources);
-            }
-
-            // Files
-            #region "Languages files"
-            File.Delete(WolfWatchMetro.SettingsPath + "english.lang");
-            File.Delete(WolfWatchMetro.SettingsPath + "french.lang");
-            File.Delete(WolfWatchMetro.SettingsPath + "german.lang");
-            File.Delete(WolfWatchMetro.SettingsPath + "spanish.lang");
-            if (!File.Exists(WolfWatchMetro.SettingsPath + "english.lang"))
-            {
-                File.Create(WolfWatchMetro.SettingsPath + "english.lang").Dispose();
-                File.WriteAllText(WolfWatchMetro.SettingsPath + "english.lang", WolfWatchMetro.englishResources);
-            }
-            if (!File.Exists(WolfWatchMetro.SettingsPath + "french.lang"))
-            {
-                File.Create(WolfWatchMetro.SettingsPath + "french.lang").Dispose();
-                File.WriteAllText(WolfWatchMetro.SettingsPath + "french.lang", WolfWatchMetro.frenchResources);
-            }
-            if (!File.Exists(WolfWatchMetro.SettingsPath + "german.lang"))
-            {
-                File.Create(WolfWatchMetro.SettingsPath + "german.lang").Dispose();
-                File.WriteAllText(WolfWatchMetro.SettingsPath + "german.lang", WolfWatchMetro.germanResources);
-            }
-            if (!File.Exists(WolfWatchMetro.SettingsPath + "spanish.lang"))
-            {
-                File.Create(WolfWatchMetro.SettingsPath + "spanish.lang").Dispose();
-                File.WriteAllText(WolfWatchMetro.SettingsPath + "spanish.lang", WolfWatchMetro.spanishResources);
-            }
-
-            #endregion
-
-            // Update files
-            WW.UpdateFiles();
-
-            // Style manager
-            WW.StyleManager = WW.metroStyleManager;
-
-            // Load settings to software
-            WW.applySettings();
-            WW.loadSettings();
-
-            // Playlists
-            WW.setPlaylistsList();
-
-            // Start software
-            this.Hide();
-            WW.Show();
+            Startup.Start();
         }
     }
 }

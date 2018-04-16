@@ -7,6 +7,7 @@ settings: Settings
 generalsettings: General settings
 videoplayersettings: Video player and playlists settings
 advancedsettings: Advanced settings
+informations: Informations
 
 // General settings
 language: Language
@@ -21,10 +22,19 @@ spanish: Spanish
 //  Video player and playlists settings
 stretchtofit: Stretch the video to fit the screen
 sortvideoslist: Sort the list of videos and playlists
+ascending: Ascending
+descending: Descending
+
+maxdropdownplaylists: Maximum number of playlists displayed at the same time in the list
 
 // Advanced settings
 showfiles: Show files
 resetfiles: Reset files
+
+// Informations
+numberplaylists: Number of playlists
+weightplaylists: Weight of playlists
+refreshinformations: Refresh informations
 
 // Disable
 donation: The {type} address of the creator has been copied to the clipboard!
@@ -52,6 +62,12 @@ playlistslist: Playlists list
 
 playlistname: Playlist name
 videoname: Video name
+videodescription: Description of the video
+cancel: Cancel
+
+filename: File name
+filedescription: File description
+fileduration: File duration
 
 // Context menu strip
 playvideo: Watch the video

@@ -34,10 +34,13 @@
             this.tabPlayer = new MetroFramework.Controls.MetroTabPage();
             this.WMP = new AxWMPLib.AxWindowsMediaPlayer();
             this.tabPlaylists = new MetroFramework.Controls.MetroTabPage();
+            this.inListView = new System.Windows.Forms.ListView();
+            this.fileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.fileDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.fileDuration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.playlistsMenu = new MetroFramework.Controls.MetroButton();
             this.playlistsList = new MetroFramework.Controls.MetroComboBox();
             this.playlists_playlistslist = new MetroFramework.Controls.MetroLabel();
-            this.inPlaylistList = new System.Windows.Forms.ListBox();
             this.tabSettings = new MetroFramework.Controls.MetroTabPage();
             this.settings_generalsettingsflowlayoutpanel = new System.Windows.Forms.FlowLayoutPanel();
             this.settings_generalsettings = new MetroFramework.Controls.MetroLabel();
@@ -50,10 +53,15 @@
             this.settings_videoplayersettings = new MetroFramework.Controls.MetroLabel();
             this.settings_stretchtofit = new MetroFramework.Controls.MetroCheckBox();
             this.settings_sortvideolist = new MetroFramework.Controls.MetroCheckBox();
+            this.settings_sortvideolisttype = new MetroFramework.Controls.MetroComboBox();
+            this.settings_maxdropdownplaylists = new MetroFramework.Controls.MetroLabel();
+            this.settings_maxdropdownplaylistsstrack = new MetroFramework.Controls.MetroTrackBar();
             this.settings_advancedsettings = new MetroFramework.Controls.MetroLabel();
             this.settings_showfiles = new MetroFramework.Controls.MetroButton();
             this.settings_resetfiles = new MetroFramework.Controls.MetroButton();
-            this.informations = new MetroFramework.Controls.MetroLabel();
+            this.settings_informations = new MetroFramework.Controls.MetroLabel();
+            this.settings_numberofplaylists = new MetroFramework.Controls.MetroLabel();
+            this.settings_weightofplaylists = new MetroFramework.Controls.MetroLabel();
             this.tabAddPlaylist = new MetroFramework.Controls.MetroTabPage();
             this.addplaylist_cancel = new MetroFramework.Controls.MetroButton();
             this.addplaylist_addplaylistbutton = new MetroFramework.Controls.MetroButton();
@@ -84,6 +92,7 @@
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
+            this.editvideo_videodescription = new MetroFramework.Controls.MetroTextBox();
             this.WWTabControl.SuspendLayout();
             this.tabPlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WMP)).BeginInit();
@@ -109,12 +118,11 @@
             this.WWTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.WWTabControl.Location = new System.Drawing.Point(20, 60);
             this.WWTabControl.Name = "WWTabControl";
-            this.WWTabControl.SelectedIndex = 2;
+            this.WWTabControl.SelectedIndex = 5;
             this.WWTabControl.Size = new System.Drawing.Size(680, 400);
             this.WWTabControl.TabIndex = 0;
             this.WWTabControl.Theme = MetroFramework.MetroThemeStyle.Light;
             this.WWTabControl.UseSelectable = true;
-            this.WWTabControl.SelectedIndexChanged += new System.EventHandler(this.WWTabControl_SelectedIndexChanged);
             // 
             // tabPlayer
             // 
@@ -143,10 +151,10 @@
             // 
             // tabPlaylists
             // 
+            this.tabPlaylists.Controls.Add(this.inListView);
             this.tabPlaylists.Controls.Add(this.playlistsMenu);
             this.tabPlaylists.Controls.Add(this.playlistsList);
             this.tabPlaylists.Controls.Add(this.playlists_playlistslist);
-            this.tabPlaylists.Controls.Add(this.inPlaylistList);
             this.tabPlaylists.HorizontalScrollbarBarColor = true;
             this.tabPlaylists.HorizontalScrollbarHighlightOnWheel = false;
             this.tabPlaylists.HorizontalScrollbarSize = 10;
@@ -158,6 +166,42 @@
             this.tabPlaylists.VerticalScrollbarBarColor = true;
             this.tabPlaylists.VerticalScrollbarHighlightOnWheel = false;
             this.tabPlaylists.VerticalScrollbarSize = 10;
+            // 
+            // inListView
+            // 
+            this.inListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.inListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.fileName,
+            this.fileDescription,
+            this.fileDuration});
+            this.inListView.FullRowSelect = true;
+            this.inListView.Location = new System.Drawing.Point(3, 3);
+            this.inListView.MultiSelect = false;
+            this.inListView.Name = "inListView";
+            this.inListView.Size = new System.Drawing.Size(380, 352);
+            this.inListView.TabIndex = 6;
+            this.inListView.UseCompatibleStateImageBehavior = false;
+            this.inListView.View = System.Windows.Forms.View.Details;
+            this.inListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.inListView_ItemSelectionChanged);
+            this.inListView.DoubleClick += new System.EventHandler(this.inListView_DoubleClick);
+            this.inListView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.inListView_MouseDown);
+            // 
+            // fileName
+            // 
+            this.fileName.Text = "File name";
+            this.fileName.Width = 117;
+            // 
+            // fileDescription
+            // 
+            this.fileDescription.Text = "File description";
+            this.fileDescription.Width = 121;
+            // 
+            // fileDuration
+            // 
+            this.fileDuration.Text = "File duration";
+            this.fileDuration.Width = 137;
             // 
             // playlistsMenu
             // 
@@ -173,8 +217,10 @@
             // playlistsList
             // 
             this.playlistsList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.playlistsList.DropDownHeight = 50;
             this.playlistsList.FontWeight = MetroFramework.MetroComboBoxWeight.Light;
             this.playlistsList.FormattingEnabled = true;
+            this.playlistsList.IntegralHeight = false;
             this.playlistsList.ItemHeight = 23;
             this.playlistsList.Location = new System.Drawing.Point(389, 31);
             this.playlistsList.Name = "playlistsList";
@@ -195,20 +241,6 @@
             this.playlists_playlistslist.Style = MetroFramework.MetroColorStyle.Black;
             this.playlists_playlistslist.TabIndex = 3;
             this.playlists_playlistslist.Text = "Playlists list:";
-            // 
-            // inPlaylistList
-            // 
-            this.inPlaylistList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.inPlaylistList.BackColor = System.Drawing.Color.White;
-            this.inPlaylistList.FormattingEnabled = true;
-            this.inPlaylistList.Location = new System.Drawing.Point(3, 3);
-            this.inPlaylistList.Name = "inPlaylistList";
-            this.inPlaylistList.Size = new System.Drawing.Size(380, 355);
-            this.inPlaylistList.TabIndex = 2;
-            this.inPlaylistList.DoubleClick += new System.EventHandler(this.inPlaylistList_DoubleClick);
-            this.inPlaylistList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.inPlaylistList_MouseDown);
             // 
             // tabSettings
             // 
@@ -239,10 +271,15 @@
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_videoplayersettings);
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_stretchtofit);
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_sortvideolist);
+            this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_sortvideolisttype);
+            this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_maxdropdownplaylists);
+            this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_maxdropdownplaylistsstrack);
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_advancedsettings);
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_showfiles);
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_resetfiles);
-            this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.informations);
+            this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_informations);
+            this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_numberofplaylists);
+            this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_weightofplaylists);
             this.settings_generalsettingsflowlayoutpanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.settings_generalsettingsflowlayoutpanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.settings_generalsettingsflowlayoutpanel.Location = new System.Drawing.Point(0, 0);
@@ -379,12 +416,58 @@
             this.settings_sortvideolist.UseSelectable = true;
             this.settings_sortvideolist.CheckedChanged += new System.EventHandler(this.settings_sortvideolist_CheckedChanged);
             // 
+            // settings_sortvideolisttype
+            // 
+            this.settings_sortvideolisttype.DropDownHeight = 100;
+            this.settings_sortvideolisttype.FontSize = MetroFramework.MetroComboBoxSize.Small;
+            this.settings_sortvideolisttype.FontWeight = MetroFramework.MetroComboBoxWeight.Light;
+            this.settings_sortvideolisttype.FormattingEnabled = true;
+            this.settings_sortvideolisttype.IntegralHeight = false;
+            this.settings_sortvideolisttype.ItemHeight = 19;
+            this.settings_sortvideolisttype.Items.AddRange(new object[] {
+            "English",
+            "French",
+            "German",
+            "Spanish"});
+            this.settings_sortvideolisttype.Location = new System.Drawing.Point(3, 242);
+            this.settings_sortvideolisttype.Name = "settings_sortvideolisttype";
+            this.settings_sortvideolisttype.Size = new System.Drawing.Size(647, 25);
+            this.settings_sortvideolisttype.TabIndex = 25;
+            this.settings_sortvideolisttype.UseSelectable = true;
+            this.settings_sortvideolisttype.Visible = false;
+            this.settings_sortvideolisttype.SelectedIndexChanged += new System.EventHandler(this.settings_sortvideolisttype_SelectedIndexChanged);
+            // 
+            // settings_maxdropdownplaylists
+            // 
+            this.settings_maxdropdownplaylists.AllowDrop = true;
+            this.settings_maxdropdownplaylists.AutoSize = true;
+            this.settings_maxdropdownplaylists.Location = new System.Drawing.Point(3, 270);
+            this.settings_maxdropdownplaylists.Name = "settings_maxdropdownplaylists";
+            this.settings_maxdropdownplaylists.Size = new System.Drawing.Size(398, 19);
+            this.settings_maxdropdownplaylists.TabIndex = 21;
+            this.settings_maxdropdownplaylists.Text = "Maximum number of playlists displayed at the same time in the list";
+            // 
+            // settings_maxdropdownplaylistsstrack
+            // 
+            this.settings_maxdropdownplaylistsstrack.BackColor = System.Drawing.Color.Transparent;
+            this.settings_maxdropdownplaylistsstrack.LargeChange = 1;
+            this.settings_maxdropdownplaylistsstrack.Location = new System.Drawing.Point(3, 292);
+            this.settings_maxdropdownplaylistsstrack.Maximum = 20;
+            this.settings_maxdropdownplaylistsstrack.Minimum = 1;
+            this.settings_maxdropdownplaylistsstrack.MouseWheelBarPartitions = 1;
+            this.settings_maxdropdownplaylistsstrack.Name = "settings_maxdropdownplaylistsstrack";
+            this.settings_maxdropdownplaylistsstrack.Size = new System.Drawing.Size(647, 23);
+            this.settings_maxdropdownplaylistsstrack.TabIndex = 20;
+            this.settings_maxdropdownplaylistsstrack.Text = "Track";
+            this.settings_maxdropdownplaylistsstrack.Value = 10;
+            this.settings_maxdropdownplaylistsstrack.ValueChanged += new System.EventHandler(this.settings_maxdropdownplaylistsstrack_ValueChanged);
+            // 
             // settings_advancedsettings
             // 
             this.settings_advancedsettings.AutoSize = true;
             this.settings_advancedsettings.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.settings_advancedsettings.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.settings_advancedsettings.Location = new System.Drawing.Point(3, 239);
+            this.settings_advancedsettings.Location = new System.Drawing.Point(3, 318);
             this.settings_advancedsettings.Name = "settings_advancedsettings";
             this.settings_advancedsettings.Size = new System.Drawing.Size(149, 25);
             this.settings_advancedsettings.Style = MetroFramework.MetroColorStyle.Black;
@@ -393,7 +476,7 @@
             // 
             // settings_showfiles
             // 
-            this.settings_showfiles.Location = new System.Drawing.Point(3, 267);
+            this.settings_showfiles.Location = new System.Drawing.Point(3, 346);
             this.settings_showfiles.Name = "settings_showfiles";
             this.settings_showfiles.Size = new System.Drawing.Size(130, 20);
             this.settings_showfiles.TabIndex = 2;
@@ -403,7 +486,7 @@
             // 
             // settings_resetfiles
             // 
-            this.settings_resetfiles.Location = new System.Drawing.Point(3, 293);
+            this.settings_resetfiles.Location = new System.Drawing.Point(3, 372);
             this.settings_resetfiles.Name = "settings_resetfiles";
             this.settings_resetfiles.Size = new System.Drawing.Size(130, 20);
             this.settings_resetfiles.TabIndex = 15;
@@ -411,17 +494,37 @@
             this.settings_resetfiles.UseSelectable = true;
             this.settings_resetfiles.Click += new System.EventHandler(this.settings_resetfiles_Click);
             // 
-            // informations
+            // settings_informations
             // 
-            this.informations.AutoSize = true;
-            this.informations.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.informations.Location = new System.Drawing.Point(3, 316);
-            this.informations.Name = "informations";
-            this.informations.Size = new System.Drawing.Size(82, 19);
-            this.informations.Style = MetroFramework.MetroColorStyle.Black;
-            this.informations.TabIndex = 18;
-            this.informations.Text = "Informations";
-            this.informations.Click += new System.EventHandler(this.informations_Click);
+            this.settings_informations.AutoSize = true;
+            this.settings_informations.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.settings_informations.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.settings_informations.Location = new System.Drawing.Point(3, 395);
+            this.settings_informations.Name = "settings_informations";
+            this.settings_informations.Size = new System.Drawing.Size(107, 25);
+            this.settings_informations.Style = MetroFramework.MetroColorStyle.Black;
+            this.settings_informations.TabIndex = 22;
+            this.settings_informations.Text = "Informations";
+            // 
+            // settings_numberofplaylists
+            // 
+            this.settings_numberofplaylists.AllowDrop = true;
+            this.settings_numberofplaylists.AutoSize = true;
+            this.settings_numberofplaylists.Location = new System.Drawing.Point(3, 420);
+            this.settings_numberofplaylists.Name = "settings_numberofplaylists";
+            this.settings_numberofplaylists.Size = new System.Drawing.Size(136, 19);
+            this.settings_numberofplaylists.TabIndex = 23;
+            this.settings_numberofplaylists.Text = "Number of playlists: 0";
+            // 
+            // settings_weightofplaylists
+            // 
+            this.settings_weightofplaylists.AllowDrop = true;
+            this.settings_weightofplaylists.AutoSize = true;
+            this.settings_weightofplaylists.Location = new System.Drawing.Point(3, 439);
+            this.settings_weightofplaylists.Name = "settings_weightofplaylists";
+            this.settings_weightofplaylists.Size = new System.Drawing.Size(128, 19);
+            this.settings_weightofplaylists.TabIndex = 24;
+            this.settings_weightofplaylists.Text = "Weight of playlists: 0";
             // 
             // tabAddPlaylist
             // 
@@ -589,6 +692,7 @@
             // 
             // tabEditVideo
             // 
+            this.tabEditVideo.Controls.Add(this.editvideo_videodescription);
             this.tabEditVideo.Controls.Add(this.editvideo_cancel);
             this.tabEditVideo.Controls.Add(this.editvideo_editvideobutton);
             this.tabEditVideo.Controls.Add(this.editvideo_videoname);
@@ -607,7 +711,7 @@
             // 
             // editvideo_cancel
             // 
-            this.editvideo_cancel.Location = new System.Drawing.Point(139, 57);
+            this.editvideo_cancel.Location = new System.Drawing.Point(139, 86);
             this.editvideo_cancel.Name = "editvideo_cancel";
             this.editvideo_cancel.Size = new System.Drawing.Size(125, 23);
             this.editvideo_cancel.Style = MetroFramework.MetroColorStyle.Red;
@@ -618,7 +722,7 @@
             // 
             // editvideo_editvideobutton
             // 
-            this.editvideo_editvideobutton.Location = new System.Drawing.Point(3, 57);
+            this.editvideo_editvideobutton.Location = new System.Drawing.Point(3, 86);
             this.editvideo_editvideobutton.Name = "editvideo_editvideobutton";
             this.editvideo_editvideobutton.Size = new System.Drawing.Size(125, 23);
             this.editvideo_editvideobutton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -774,6 +878,36 @@
             // 
             this.metroStyleManager.Owner = this;
             // 
+            // editvideo_videodescription
+            // 
+            // 
+            // 
+            // 
+            this.editvideo_videodescription.CustomButton.Image = null;
+            this.editvideo_videodescription.CustomButton.Location = new System.Drawing.Point(239, 1);
+            this.editvideo_videodescription.CustomButton.Name = "";
+            this.editvideo_videodescription.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.editvideo_videodescription.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.editvideo_videodescription.CustomButton.TabIndex = 1;
+            this.editvideo_videodescription.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.editvideo_videodescription.CustomButton.UseSelectable = true;
+            this.editvideo_videodescription.CustomButton.Visible = false;
+            this.editvideo_videodescription.Lines = new string[0];
+            this.editvideo_videodescription.Location = new System.Drawing.Point(3, 57);
+            this.editvideo_videodescription.MaxLength = 32767;
+            this.editvideo_videodescription.Name = "editvideo_videodescription";
+            this.editvideo_videodescription.PasswordChar = '\0';
+            this.editvideo_videodescription.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.editvideo_videodescription.SelectedText = "";
+            this.editvideo_videodescription.SelectionLength = 0;
+            this.editvideo_videodescription.SelectionStart = 0;
+            this.editvideo_videodescription.ShortcutsEnabled = true;
+            this.editvideo_videodescription.Size = new System.Drawing.Size(261, 23);
+            this.editvideo_videodescription.TabIndex = 14;
+            this.editvideo_videodescription.UseSelectable = true;
+            this.editvideo_videodescription.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.editvideo_videodescription.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
             // WolfWatchMetro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -809,59 +943,68 @@
 
         #endregion
 
-        private MetroFramework.Controls.MetroTabControl WWTabControl;
-        private MetroFramework.Controls.MetroTabPage tabPlayer;
-        private MetroFramework.Controls.MetroTabPage tabPlaylists;
-        private MetroFramework.Controls.MetroTabPage tabSettings;
-        private System.Windows.Forms.ListBox inPlaylistList;
-        private MetroFramework.Controls.MetroLabel playlists_playlistslist;
-        private MetroFramework.Controls.MetroComboBox playlistsList;
-        private MetroFramework.Controls.MetroButton playlistsMenu;
-        private MetroFramework.Controls.MetroLabel settings_lang;
-        private System.Windows.Forms.FlowLayoutPanel settings_generalsettingsflowlayoutpanel;
-        private MetroFramework.Controls.MetroLabel settings_generalsettings;
-        private MetroFramework.Controls.MetroLabel settings_videoplayersettings;
-        private MetroFramework.Controls.MetroTabPage tabAddPlaylist;
-        private MetroFramework.Controls.MetroTabPage tabEditPlaylist;
-        private MetroFramework.Controls.MetroTabPage tabEditVideo;
-        private MetroFramework.Controls.MetroLabel addplaylist_addplaylist;
-        private MetroFramework.Controls.MetroLabel editplaylist_editplaylist;
-        private MetroFramework.Controls.MetroLabel editvideo_editvideo;
-        private MetroFramework.Controls.MetroTextBox addplaylist_playlistname;
-        private MetroFramework.Controls.MetroButton addplaylist_addplaylistbutton;
-        private MetroFramework.Controls.MetroButton addplaylist_cancel;
-        private MetroFramework.Controls.MetroButton editplaylist_cancel;
-        private MetroFramework.Controls.MetroButton editplaylist_editplaylistbutton;
-        private MetroFramework.Controls.MetroTextBox editplaylist_playlistname;
-        private MetroFramework.Controls.MetroButton editvideo_cancel;
-        private MetroFramework.Controls.MetroButton editvideo_editvideobutton;
-        private MetroFramework.Controls.MetroTextBox editvideo_videoname;
-        private MetroFramework.Controls.MetroContextMenu playlistContextMenu;
-        private MetroFramework.Controls.MetroContextMenu listContextMenu;
-        private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.ToolStripMenuItem addPlaylistToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removePlaylistToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editPlaylistToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportPlaylistToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem playVideoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addVideoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removeVideoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editVideoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportVideoToolStripMenuItem;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private MetroFramework.Controls.MetroButton settings_showfiles;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-        private MetroFramework.Controls.MetroCheckBox settings_autoupdates;
-        private MetroFramework.Controls.MetroComboBox settings_langcombo;
-        private MetroFramework.Controls.MetroCheckBox settings_stretchtofit;
-        private MetroFramework.Controls.MetroCheckBox settings_sortvideolist;
-        private MetroFramework.Controls.MetroLabel settings_advancedsettings;
-        private MetroFramework.Controls.MetroButton settings_resetfiles;
+        public MetroFramework.Controls.MetroTabControl WWTabControl;
+        public MetroFramework.Controls.MetroTabPage tabPlayer;
+        public MetroFramework.Controls.MetroTabPage tabPlaylists;
+        public MetroFramework.Controls.MetroTabPage tabSettings;
+        public MetroFramework.Controls.MetroLabel playlists_playlistslist;
+        public MetroFramework.Controls.MetroComboBox playlistsList;
+        public MetroFramework.Controls.MetroButton playlistsMenu;
+        public MetroFramework.Controls.MetroLabel settings_lang;
+        public System.Windows.Forms.FlowLayoutPanel settings_generalsettingsflowlayoutpanel;
+        public MetroFramework.Controls.MetroLabel settings_generalsettings;
+        public MetroFramework.Controls.MetroLabel settings_videoplayersettings;
+        public MetroFramework.Controls.MetroTabPage tabAddPlaylist;
+        public MetroFramework.Controls.MetroTabPage tabEditPlaylist;
+        public MetroFramework.Controls.MetroTabPage tabEditVideo;
+        public MetroFramework.Controls.MetroLabel addplaylist_addplaylist;
+        public MetroFramework.Controls.MetroLabel editplaylist_editplaylist;
+        public MetroFramework.Controls.MetroLabel editvideo_editvideo;
+        public MetroFramework.Controls.MetroTextBox addplaylist_playlistname;
+        public MetroFramework.Controls.MetroButton addplaylist_addplaylistbutton;
+        public MetroFramework.Controls.MetroButton addplaylist_cancel;
+        public MetroFramework.Controls.MetroButton editplaylist_cancel;
+        public MetroFramework.Controls.MetroButton editplaylist_editplaylistbutton;
+        public MetroFramework.Controls.MetroTextBox editplaylist_playlistname;
+        public MetroFramework.Controls.MetroButton editvideo_cancel;
+        public MetroFramework.Controls.MetroButton editvideo_editvideobutton;
+        public MetroFramework.Controls.MetroTextBox editvideo_videoname;
+        public MetroFramework.Controls.MetroContextMenu playlistContextMenu;
+        public MetroFramework.Controls.MetroContextMenu listContextMenu;
+        public System.Windows.Forms.OpenFileDialog openFileDialog;
+        public System.Windows.Forms.ToolStripMenuItem addPlaylistToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem removePlaylistToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem editPlaylistToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem exportPlaylistToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem playVideoToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem addVideoToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem removeVideoToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem editVideoToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem exportVideoToolStripMenuItem;
+        public System.Windows.Forms.SaveFileDialog saveFileDialog;
+        public MetroFramework.Controls.MetroButton settings_showfiles;
+        public System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        public MetroFramework.Controls.MetroCheckBox settings_autoupdates;
+        public MetroFramework.Controls.MetroComboBox settings_langcombo;
+        public MetroFramework.Controls.MetroCheckBox settings_stretchtofit;
+        public MetroFramework.Controls.MetroCheckBox settings_sortvideolist;
+        public MetroFramework.Controls.MetroLabel settings_advancedsettings;
+        public MetroFramework.Controls.MetroButton settings_resetfiles;
         public MetroFramework.Components.MetroStyleManager metroStyleManager;
-        private MetroFramework.Controls.MetroLabel settings_theme;
-        private MetroFramework.Controls.MetroComboBox settings_themecombo;
-        private AxWMPLib.AxWindowsMediaPlayer WMP;
-        private MetroFramework.Controls.MetroLabel informations;
-        private MetroFramework.Controls.MetroButton settings_manualupdatecheck;
+        public MetroFramework.Controls.MetroLabel settings_theme;
+        public MetroFramework.Controls.MetroComboBox settings_themecombo;
+        public AxWMPLib.AxWindowsMediaPlayer WMP;
+        public MetroFramework.Controls.MetroButton settings_manualupdatecheck;
+        public MetroFramework.Controls.MetroTrackBar settings_maxdropdownplaylistsstrack;
+        public MetroFramework.Controls.MetroLabel settings_maxdropdownplaylists;
+        public MetroFramework.Controls.MetroLabel settings_informations;
+        public MetroFramework.Controls.MetroLabel settings_numberofplaylists;
+        public MetroFramework.Controls.MetroLabel settings_weightofplaylists;
+        public System.Windows.Forms.ListView inListView;
+        public System.Windows.Forms.ColumnHeader fileName;
+        public System.Windows.Forms.ColumnHeader fileDescription;
+        public System.Windows.Forms.ColumnHeader fileDuration;
+        public MetroFramework.Controls.MetroComboBox settings_sortvideolisttype;
+        public MetroFramework.Controls.MetroTextBox editvideo_videodescription;
     }
 }

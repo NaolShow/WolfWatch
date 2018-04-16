@@ -17,7 +17,12 @@ namespace WolfWatch
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SplashScreen());
+            splashForm = new SplashScreen();
+            Application.Run(splashForm);
         }
+
+        public static SplashScreen splashForm;
+        public static WolfWatchMetro mainForm;
+
     }
 }

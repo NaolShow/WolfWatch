@@ -9,10 +9,12 @@ version: WolfWatchVersion
 // French: 3
 lang: English
 theme: Light
-autoupdates: true
+autoupdates: True
 
 // Playlists settings
-sort_videos_list: true
+sort_videos_list: True
+sort_videos_list_type: 0
+max_dropdown_playlists: 5
 
 // Video player settings
-stretch_to_fit: true
+stretch_to_fit: True

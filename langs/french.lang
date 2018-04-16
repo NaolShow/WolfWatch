@@ -7,6 +7,7 @@ settings: Paramètres
 generalsettings: Paramètres généraux
 videoplayersettings: Paramètres du lecteur vidéo et des playlists
 advancedsettings: Paramètres avancés
+informations: Informations
 
 // Paramètres généraux
 language: Langage
@@ -21,10 +22,19 @@ spanish: Espagnol
 //  Paramètres du lecteur vidéo et des playlists
 stretchtofit: Étirer la vidéo pour s'adapter à l'écran
 sortvideoslist: Trier la liste des vidéos et des playlists
+ascending: Ascendant
+descending: Descendant
+
+maxdropdownplaylists: Nombre maximum de playlists affichées en même temps dans la liste
 
 // Paramètres avancés
 showfiles: Afficher les fichiers
 resetfiles: Réinitialiser les fichiers
+
+// Informations
+numberplaylists: Nombre de playlists
+weightplaylists: Poids des playlists
+refreshinformations: Actualiser les informations
 
 // Disable
 donation: L'adresse {type} du créateur a été copié dans le presse papier !
@@ -52,6 +62,12 @@ playlistslist: Liste des playlists
 
 playlistname: Nom de la playlist
 videoname: Nom de la vidéo
+videodescription: Description de la vidéo
+cancel: Annuler
+
+filename: Nom du fichier
+filedescription: Description du fichier
+fileduration: Durée du fichier
 
 // Menus déroulants
 playvideo: Regarder la vidéo
