@@ -36,7 +36,7 @@
             // 
             // image
             // 
-            this.image.BackgroundImage = global::WolfWatch.Properties.Resources.WolfWatch;
+            this.image.BackgroundImage = global::WolfWatch.Properties.Resources.SplashScreen;
             this.image.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.image.Controls.Add(this.progressBar);
             this.image.HorizontalScrollbarBarColor = true;

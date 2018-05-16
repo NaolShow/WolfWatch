@@ -100,7 +100,7 @@ namespace WolfWatch
                 numberplaylists = WolfLib.Rasu.Get(path, "numberplaylists");
                 Program.mainForm.settings_numberofplaylists.Text = numberplaylists + ": " + Directory.GetDirectories(References.PlaylistsPath).Count();
                 weightplaylists = WolfLib.Rasu.Get(path, "weightplaylists");
-                Program.mainForm.settings_weightofplaylists.Text = weightplaylists + ": " + Directory.GetFiles(References.PlaylistsPath, "*", SearchOption.AllDirectories).Sum(t => (new FileInfo(t).Length) / 1024 / 1024) + "Mo";
+                Program.mainForm.settings_weightofplaylists.Text = weightplaylists + ": " + Settings.GetPlaylistsSize();
 
                 // Buttons
                 Program.mainForm.addplaylist_addplaylistbutton.Text = WolfLib.Rasu.Get(path, "addplaylist");

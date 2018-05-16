@@ -253,7 +253,7 @@ namespace WolfWatch
                     WMP.URL = "";
                     WWTabControl.TabPages.Insert(WWTabControl.TabCount, tabEditPlaylist);
                     WWTabControl.SelectTab(tabEditPlaylist);
-                    
+
                     // Load playlist informations
                     editplaylist_playlistname.Text = playlistsList.Text;
                 }
@@ -274,7 +274,7 @@ namespace WolfWatch
         // Apply edit
         private void editplaylist_editplaylistbutton_Click(object sender, EventArgs e)
         {
-            if (editplaylist_playlistname.Text != playlistsList.Text&&editplaylist_playlistname.Text != "")
+            if (editplaylist_playlistname.Text != playlistsList.Text && editplaylist_playlistname.Text != "")
             {
                 if (Directory.Exists(References.PlaylistsPath + editplaylist_playlistname.Text))
                 { MetroMessageBox.Show(this, Langs.playlistExist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
@@ -352,7 +352,6 @@ namespace WolfWatch
                             // Set up video info file
                             WolfLib.Rasu.Set(SelectedPlaylistPath + Path.GetFileNameWithoutExtension(openFileDialog.FileName) + ".info", "video_extension", Path.GetExtension(openFileDialog.FileName));
                             WolfLib.Rasu.Set(SelectedPlaylistPath + Path.GetFileNameWithoutExtension(openFileDialog.FileName) + ".info", "video_file_version", Application.ProductVersion);
-
                             refreshList();
                         }
                         else { MetroMessageBox.Show(this, Langs.videoExist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }

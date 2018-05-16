@@ -62,6 +62,7 @@
             this.settings_informations = new MetroFramework.Controls.MetroLabel();
             this.settings_numberofplaylists = new MetroFramework.Controls.MetroLabel();
             this.settings_weightofplaylists = new MetroFramework.Controls.MetroLabel();
+            this.WolfWatchInformations = new MetroFramework.Controls.MetroLabel();
             this.tabAddPlaylist = new MetroFramework.Controls.MetroTabPage();
             this.addplaylist_cancel = new MetroFramework.Controls.MetroButton();
             this.addplaylist_addplaylistbutton = new MetroFramework.Controls.MetroButton();
@@ -73,6 +74,7 @@
             this.editplaylist_playlistname = new MetroFramework.Controls.MetroTextBox();
             this.editplaylist_editplaylist = new MetroFramework.Controls.MetroLabel();
             this.tabEditVideo = new MetroFramework.Controls.MetroTabPage();
+            this.editvideo_videodescription = new MetroFramework.Controls.MetroTextBox();
             this.editvideo_cancel = new MetroFramework.Controls.MetroButton();
             this.editvideo_editvideobutton = new MetroFramework.Controls.MetroButton();
             this.editvideo_videoname = new MetroFramework.Controls.MetroTextBox();
@@ -92,7 +94,6 @@
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
-            this.editvideo_videodescription = new MetroFramework.Controls.MetroTextBox();
             this.WWTabControl.SuspendLayout();
             this.tabPlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WMP)).BeginInit();
@@ -118,7 +119,7 @@
             this.WWTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.WWTabControl.Location = new System.Drawing.Point(20, 60);
             this.WWTabControl.Name = "WWTabControl";
-            this.WWTabControl.SelectedIndex = 5;
+            this.WWTabControl.SelectedIndex = 1;
             this.WWTabControl.Size = new System.Drawing.Size(680, 400);
             this.WWTabControl.TabIndex = 0;
             this.WWTabControl.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -180,7 +181,7 @@
             this.inListView.Location = new System.Drawing.Point(3, 3);
             this.inListView.MultiSelect = false;
             this.inListView.Name = "inListView";
-            this.inListView.Size = new System.Drawing.Size(380, 352);
+            this.inListView.Size = new System.Drawing.Size(669, 292);
             this.inListView.TabIndex = 6;
             this.inListView.UseCompatibleStateImageBehavior = false;
             this.inListView.View = System.Windows.Forms.View.Details;
@@ -191,12 +192,12 @@
             // fileName
             // 
             this.fileName.Text = "File name";
-            this.fileName.Width = 117;
+            this.fileName.Width = 186;
             // 
             // fileDescription
             // 
             this.fileDescription.Text = "File description";
-            this.fileDescription.Width = 121;
+            this.fileDescription.Width = 150;
             // 
             // fileDuration
             // 
@@ -206,9 +207,9 @@
             // playlistsMenu
             // 
             this.playlistsMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.playlistsMenu.Location = new System.Drawing.Point(605, 31);
+            this.playlistsMenu.Location = new System.Drawing.Point(465, 326);
             this.playlistsMenu.Name = "playlistsMenu";
-            this.playlistsMenu.Size = new System.Drawing.Size(64, 29);
+            this.playlistsMenu.Size = new System.Drawing.Size(204, 29);
             this.playlistsMenu.TabIndex = 5;
             this.playlistsMenu.Text = ". . .";
             this.playlistsMenu.UseSelectable = true;
@@ -222,9 +223,9 @@
             this.playlistsList.FormattingEnabled = true;
             this.playlistsList.IntegralHeight = false;
             this.playlistsList.ItemHeight = 23;
-            this.playlistsList.Location = new System.Drawing.Point(389, 31);
+            this.playlistsList.Location = new System.Drawing.Point(3, 326);
             this.playlistsList.Name = "playlistsList";
-            this.playlistsList.Size = new System.Drawing.Size(210, 29);
+            this.playlistsList.Size = new System.Drawing.Size(456, 29);
             this.playlistsList.TabIndex = 4;
             this.playlistsList.UseSelectable = true;
             this.playlistsList.SelectedIndexChanged += new System.EventHandler(this.playlistsList_SelectedIndexChanged);
@@ -235,7 +236,7 @@
             this.playlists_playlistslist.AutoSize = true;
             this.playlists_playlistslist.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.playlists_playlistslist.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.playlists_playlistslist.Location = new System.Drawing.Point(389, 3);
+            this.playlists_playlistslist.Location = new System.Drawing.Point(3, 298);
             this.playlists_playlistslist.Name = "playlists_playlistslist";
             this.playlists_playlistslist.Size = new System.Drawing.Size(99, 25);
             this.playlists_playlistslist.Style = MetroFramework.MetroColorStyle.Black;
@@ -280,6 +281,7 @@
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_informations);
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_numberofplaylists);
             this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.settings_weightofplaylists);
+            this.settings_generalsettingsflowlayoutpanel.Controls.Add(this.WolfWatchInformations);
             this.settings_generalsettingsflowlayoutpanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.settings_generalsettingsflowlayoutpanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.settings_generalsettingsflowlayoutpanel.Location = new System.Drawing.Point(0, 0);
@@ -526,6 +528,17 @@
             this.settings_weightofplaylists.TabIndex = 24;
             this.settings_weightofplaylists.Text = "Weight of playlists: 0";
             // 
+            // WolfWatchInformations
+            // 
+            this.WolfWatchInformations.AllowDrop = true;
+            this.WolfWatchInformations.AutoSize = true;
+            this.WolfWatchInformations.Location = new System.Drawing.Point(3, 458);
+            this.WolfWatchInformations.Name = "WolfWatchInformations";
+            this.WolfWatchInformations.Size = new System.Drawing.Size(160, 133);
+            this.WolfWatchInformations.TabIndex = 26;
+            this.WolfWatchInformations.Text = "\r\n\r\nWolfWatch v1.4\r\nVideo player, open source\r\nCreated by ToWolf\r\n\r\nhttp://towolf" +
+    ".livehost.fr/";
+            // 
             // tabAddPlaylist
             // 
             this.tabAddPlaylist.Controls.Add(this.addplaylist_cancel);
@@ -709,6 +722,36 @@
             this.tabEditVideo.VerticalScrollbarHighlightOnWheel = false;
             this.tabEditVideo.VerticalScrollbarSize = 10;
             // 
+            // editvideo_videodescription
+            // 
+            // 
+            // 
+            // 
+            this.editvideo_videodescription.CustomButton.Image = null;
+            this.editvideo_videodescription.CustomButton.Location = new System.Drawing.Point(239, 1);
+            this.editvideo_videodescription.CustomButton.Name = "";
+            this.editvideo_videodescription.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.editvideo_videodescription.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.editvideo_videodescription.CustomButton.TabIndex = 1;
+            this.editvideo_videodescription.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.editvideo_videodescription.CustomButton.UseSelectable = true;
+            this.editvideo_videodescription.CustomButton.Visible = false;
+            this.editvideo_videodescription.Lines = new string[0];
+            this.editvideo_videodescription.Location = new System.Drawing.Point(3, 57);
+            this.editvideo_videodescription.MaxLength = 32767;
+            this.editvideo_videodescription.Name = "editvideo_videodescription";
+            this.editvideo_videodescription.PasswordChar = '\0';
+            this.editvideo_videodescription.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.editvideo_videodescription.SelectedText = "";
+            this.editvideo_videodescription.SelectionLength = 0;
+            this.editvideo_videodescription.SelectionStart = 0;
+            this.editvideo_videodescription.ShortcutsEnabled = true;
+            this.editvideo_videodescription.Size = new System.Drawing.Size(261, 23);
+            this.editvideo_videodescription.TabIndex = 14;
+            this.editvideo_videodescription.UseSelectable = true;
+            this.editvideo_videodescription.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.editvideo_videodescription.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
             // editvideo_cancel
             // 
             this.editvideo_cancel.Location = new System.Drawing.Point(139, 86);
@@ -878,36 +921,6 @@
             // 
             this.metroStyleManager.Owner = this;
             // 
-            // editvideo_videodescription
-            // 
-            // 
-            // 
-            // 
-            this.editvideo_videodescription.CustomButton.Image = null;
-            this.editvideo_videodescription.CustomButton.Location = new System.Drawing.Point(239, 1);
-            this.editvideo_videodescription.CustomButton.Name = "";
-            this.editvideo_videodescription.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.editvideo_videodescription.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.editvideo_videodescription.CustomButton.TabIndex = 1;
-            this.editvideo_videodescription.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.editvideo_videodescription.CustomButton.UseSelectable = true;
-            this.editvideo_videodescription.CustomButton.Visible = false;
-            this.editvideo_videodescription.Lines = new string[0];
-            this.editvideo_videodescription.Location = new System.Drawing.Point(3, 57);
-            this.editvideo_videodescription.MaxLength = 32767;
-            this.editvideo_videodescription.Name = "editvideo_videodescription";
-            this.editvideo_videodescription.PasswordChar = '\0';
-            this.editvideo_videodescription.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.editvideo_videodescription.SelectedText = "";
-            this.editvideo_videodescription.SelectionLength = 0;
-            this.editvideo_videodescription.SelectionStart = 0;
-            this.editvideo_videodescription.ShortcutsEnabled = true;
-            this.editvideo_videodescription.Size = new System.Drawing.Size(261, 23);
-            this.editvideo_videodescription.TabIndex = 14;
-            this.editvideo_videodescription.UseSelectable = true;
-            this.editvideo_videodescription.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.editvideo_videodescription.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
             // WolfWatchMetro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1006,5 +1019,6 @@
         public System.Windows.Forms.ColumnHeader fileDuration;
         public MetroFramework.Controls.MetroComboBox settings_sortvideolisttype;
         public MetroFramework.Controls.MetroTextBox editvideo_videodescription;
+        public MetroFramework.Controls.MetroLabel WolfWatchInformations;
     }
 }

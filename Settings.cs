@@ -274,7 +274,22 @@ namespace WolfWatch
         private static void RefreshInformations()
         {
             Program.mainForm.settings_numberofplaylists.Text = Langs.numberplaylists + ": " + Directory.GetDirectories(References.PlaylistsPath).Count();
-            Program.mainForm.settings_weightofplaylists.Text = Langs.weightplaylists + ": " + Directory.GetFiles(References.PlaylistsPath, "*", SearchOption.AllDirectories).Sum(t => (new FileInfo(t).Length) / 1024 / 1024) + "Mo";
+            Program.mainForm.settings_weightofplaylists.Text = Langs.weightplaylists + ": " + GetPlaylistsSize();
+        }
+
+        public static String GetPlaylistsSize()
+        {
+            float size = Directory.GetFiles(References.PlaylistsPath, "*", SearchOption.AllDirectories).Sum(t => (new FileInfo(t).Length));
+            if(size / 1024 > 1)
+            {
+                if (size / 1024 / 1024 > 1)
+                {
+                    if (size / 1024 / 1024 / 1024 > 1)
+                    {
+                        return Math.Round(size / 1024 / 1024 / 1024) + " Go";
+                    }else { return Math.Round(size / 1024 / 1024) + " Mo"; }
+                }else{return Math.Round(size / 1024) + " Ko";}
+            }else { return Math.Round(size) + " O"; }
         }
 
         #endregion
