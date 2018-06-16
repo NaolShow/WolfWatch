@@ -1,0 +1,76 @@
+// English traduction of WolfWatch software by Loan.J (NaolShow)
+// This language file is deleted and recreated at each launch
+
+// ---------- Settings ----------
+settings: Settings
+
+generalsettings: General settings
+videoplayersettings: Video player and playlists settings
+advancedsettings: Advanced settings
+informations: Informations
+
+// General settings
+language: Language
+autoupdates: Check at each launch if an update is available	
+manualupdatecheck: Manual update check
+
+//  Video player and playlists settings
+stretchtofit: Stretch the video to fit the screen
+sortvideoslist: Sort the list of videos and playlists
+ascending: Ascending
+descending: Descending
+
+maxdropdownplaylists: Maximum number of playlists displayed at the same time in the list
+
+// Advanced settings
+showfiles: Show files
+resetfiles: Reset files
+
+// Informations
+numberplaylists: Number of playlists
+weightplaylists: Weight of playlists
+refreshinformations: Refresh informations
+
+// ---------- Message box ----------
+newversion: A new version is available, click YES to go to download it!
+nonewversion: No new version is available!
+errorconnection: A connection error has occurred to determine if a new version of the software is available, the timeout is exceeded, please try again later.
+
+deletefiles: Do you want to reset the software?
+restartsoftware: Please restart the software
+
+playlistexist: This playlist already exist
+videoexist: This video already exists
+selectvideo: Please select a video
+selectplaylist: Please select a playlist
+deletevideo: Do you want to delete this video?
+deleteplaylist: Do you want to delete this playlist ?
+
+// ---------- Playlists ----------
+
+// Texts
+playlists: Playlists
+playlistslist: Playlists list
+
+playlistname: Playlist name
+videoname: Video name
+videodescription: Description of the video
+cancel: Cancel
+
+open: Open
+
+filename: File name
+filedescription: File description
+fileduration: File duration
+
+// Context menu strip
+playvideo: Watch the video
+addvideo: Add a video
+removevideo: Remove the video
+editvideo: Edit the video
+exportvideo: Export the video
+
+addplaylist: Add playlist
+removeplaylist: Remove playlist
+editplaylist: Edit playlist
+exportplaylist: Export playlist

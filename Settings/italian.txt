@@ -1,0 +1,76 @@
+// Traduzione italiana del software WolfWatch di Loan.J (NaolShow)
+// Questo file di lingua viene cancellato e ricreato ad ogni avvio
+
+// ---------- Impostazioni ----------
+settings: Impostazioni
+
+generalsettings: Impostazioni generali
+videoplayersettings: Impostazioni di lettore video e playlist
+advancedsettings: Impostazioni avanzate
+informations: Informazioni
+
+// Impostazioni generali
+language: Lingua
+autoupdates: Controllare ad ogni avvio se è disponibile un aggiornamento
+manualupdatecheck: Controllo aggiornamento manuale
+
+// Impostazioni di video player e playlist
+stretchtofit: Estendi il video per adattarlo allo schermo
+sortvideoslist: Ordina l'elenco di video e playlist
+ascending: Ascendente
+descending: Discendente
+
+maxdropdownplaylists: Numero massimo di playlist visualizzate contemporaneamente nell'elenco
+
+// Impostazioni avanzate
+showfiles: Mostra i file
+resetfiles: Ripristina i file
+
+// Informazioni
+numberplaylists: Numero di playlist
+weightplaylists: Peso delle playlist
+refreshinformations: Aggiorna le informazioni
+
+// ---------- Casella dei messaggi ----------
+newversion: È disponibile una nuova versione, fare clic su SÌ per andare a scaricarlo!
+nonewversion: Nessuna nuova versione è disponibile!
+errorconnection: Si è verificato un errore di connessione per determinare se è disponibile una nuova versione del software, il timeout è stato superato, riprovare più tardi.
+
+deletefiles: Vuoi reimpostare il software?
+restartsoftware: Riavviare il software
+
+playlistexist: Questa playlist esiste già
+videoexist: Questo video esiste già
+selectvideo: Selezionare un video
+selectplaylist: Si prega di selezionare una playlist
+deletevideo: Vuoi eliminare questo video?
+deleteplaylist: Vuoi eliminare questa playlist?
+
+// ---------- Playlist ----------
+
+// Testi
+playlists: Playlist
+playlistslist: Elenco di playlist
+
+playlistname: Nome della playlist
+videoname: Nome del video
+videodescription: Descrizione del video
+cancel: Annulla
+
+open: Aperto
+
+filename: Nome file
+filedescription: Descrizione del file
+fileduration: Durata del file
+
+// Striscia del menu contestuale
+playvideo: Guarda il video
+addvideo: Aggiungi un video
+removevideo: Rimuovi il video
+editvideo: Modifica il video
+exportvideo: Esporta il video
+
+addplaylist: Aggiungi playlist
+removeplaylist: Rimuovi la playlist
+editplaylist: Modifica playlist
+exportplaylist: Playlist di esportazione
