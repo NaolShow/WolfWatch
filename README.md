@@ -7,11 +7,28 @@ You can visit the ToWolf website: http://bit.ly/Towolf
 You can visit the YouTube channel of ToWolf (French): http://bit.ly/ToWolf_Youtube                                                         
 ##### WolfWatch is available in several languages:
 - English
-- French
-- German
-- Spanish
-- Custom Languages (Comes with the next version v1.5! Stay tuned!)
+- Français
+- Deutsch
+- Español
+- Italiano
+- Custom Languages
+
+### How to have a personalized language?
        
+To have a custom language you have to go to the WolfWatch files.                                                                  
+So go manually in the software files or then open the software,                                                                 
+then go to the settings tab and click on "Show files"                                                                                   
+                                                                 
+Then go to the "Settings" folder, then in this folder, copy paste a file in ".lang"                                                    
+it will serve as a template for your custom language.                                                                 
+                                                                 
+Open this file with notepad, or notepadd ++ (or other software)                                                                 
+And change the messages of the file!                                                                 
+                                                                 
+Information:                                                                 
+- If a translation is missing, the software will replace the translation with an error message.
+- You can distribute your custom .lang files! (Please provide a link to this GitHub project)
+                                                                        
 # Licence                                         
                                          
 WolfLib is licensed under the GNU General Public License 3.0                                         
