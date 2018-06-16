@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WMPLib;
 using WolfWatch.Properties;
+using WolfLib;
 
 namespace WolfWatch
 {
@@ -31,7 +32,7 @@ namespace WolfWatch
 
                 this.Name = name;
                 this.Extension = extension;
-                this.Path = References.PlaylistsPath + Program.mainForm.playlistsList.Text + "\\" + name;
+                this.Path = Reference.PlaylistsPath + Program.mainForm.playlistsList.Text + "\\" + name;
 
                 if (Extension != ".web")
                 {
@@ -40,17 +41,21 @@ namespace WolfWatch
                     this.Duration = TimeSpan.FromSeconds(clip.duration).ToString();
                 }
 
+                Rasu VideoInfo = new Rasu(this.Path + ".info");
+
                 // Check updates
-                if (WolfLib.Rasu.Get(this.Path + ".info", "video_file_version") != Application.ProductVersion)
+                if (VideoInfo.Get("video_file_version") != Application.ProductVersion)
                 {
-                    File.WriteAllText(this.Path + Application.ProductVersion + ".info", Resources.video);
-                    WolfLib.Rasu.MergeFile(this.Path + ".info", this.Path + Application.ProductVersion + ".info");
-                    File.Delete(this.Path + ".info");
-                    File.Move(this.Path + Application.ProductVersion + ".info", this.Path + ".info");
-                    WolfLib.Rasu.Set(this.Path + ".info", "video_file_version", Application.ProductVersion);
+                    Rasu VideoInfoTemplate = new Rasu(Resources.video);
+                    VideoInfo.MergeFile(VideoInfoTemplate);
+
+                    VideoInfoTemplate.Set("video_file_version", Application.ProductVersion);
+
+                    File.WriteAllText(VideoInfo.GetFilePath(), VideoInfoTemplate.GetFileContent());
+                    VideoInfo.ReloadFile();
                 }
 
-                this.Description = WolfLib.Rasu.Get(this.Path + ".info", "video_description");
+                this.Description = VideoInfo.Get("video_description");
 
             }
             catch (Exception ex)

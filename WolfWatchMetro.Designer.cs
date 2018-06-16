@@ -206,7 +206,7 @@
             // 
             // playlistsMenu
             // 
-            this.playlistsMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.playlistsMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.playlistsMenu.Location = new System.Drawing.Point(465, 326);
             this.playlistsMenu.Name = "playlistsMenu";
             this.playlistsMenu.Size = new System.Drawing.Size(204, 29);
@@ -217,7 +217,8 @@
             // 
             // playlistsList
             // 
-            this.playlistsList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.playlistsList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.playlistsList.DropDownHeight = 50;
             this.playlistsList.FontWeight = MetroFramework.MetroComboBoxWeight.Light;
             this.playlistsList.FormattingEnabled = true;
@@ -232,7 +233,7 @@
             // 
             // playlists_playlistslist
             // 
-            this.playlists_playlistslist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.playlists_playlistslist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.playlists_playlistslist.AutoSize = true;
             this.playlists_playlistslist.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.playlists_playlistslist.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -536,8 +537,8 @@
             this.WolfWatchInformations.Name = "WolfWatchInformations";
             this.WolfWatchInformations.Size = new System.Drawing.Size(160, 133);
             this.WolfWatchInformations.TabIndex = 26;
-            this.WolfWatchInformations.Text = "\r\n\r\nWolfWatch v1.4\r\nVideo player, open source\r\nCreated by ToWolf\r\n\r\nhttp://towolf" +
-    ".livehost.fr/";
+            this.WolfWatchInformations.Text = "\r\n\r\nWolfWatch v1.5\nVideo player, open source\r\nCreated by ToWolf\r\n\r\nhttp://towolf." +
+    "livehost.fr/";
             // 
             // tabAddPlaylist
             // 
@@ -932,7 +933,7 @@
             this.Name = "WolfWatchMetro";
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.Text = "WolfWatch";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WolfWatchMetro_FormClosed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WolfWatchMetro_FormClosing);
             this.WWTabControl.ResumeLayout(false);
             this.tabPlayer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.WMP)).EndInit();

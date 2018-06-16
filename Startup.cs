@@ -10,13 +10,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework;
+using System.Threading;
 
 namespace WolfWatch
 {
     public static class Startup
     {
 
-        public static void Start()
+        public static void Setup()
         {
             // Verification of the process
             String thisprocessname = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
@@ -25,6 +26,9 @@ namespace WolfWatch
                 MetroMessageBox.Show(Program.splashForm, "You can't open the application twice at the same time!", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
+
+            // Initialize RSettings
+            Reference.RSettings = new WolfLib.Rasu(Reference.SettingsFile);
 
             // Initialize folders
             Folders();
@@ -54,50 +58,40 @@ namespace WolfWatch
         private static void Folders()
         {
 
-            if (!Directory.Exists(References.MainPath))
+            if (!Directory.Exists(Reference.MainPath))
             {
-                Directory.CreateDirectory(References.MainPath);
+                Directory.CreateDirectory(Reference.MainPath);
             }
-            if (!Directory.Exists(References.SettingsPath))
+            if (!Directory.Exists(Reference.SettingsPath))
             {
-                Directory.CreateDirectory(References.SettingsPath);
+                Directory.CreateDirectory(Reference.SettingsPath);
             }
-            if (!Directory.Exists(References.PlaylistsPath))
+            if (!Directory.Exists(Reference.PlaylistsPath))
             {
-                Directory.CreateDirectory(References.PlaylistsPath);
+                Directory.CreateDirectory(Reference.PlaylistsPath);
             }
 
         }
 
         private static void Files()
         {
-            if (!File.Exists(References.SettingsFile))
+            if (!File.Exists(Reference.SettingsFile))
             {
-                File.Create(References.SettingsFile).Dispose();
-                File.WriteAllText(References.SettingsFile, Resources.settings);
-            }
-            if (!File.Exists(References.SettingsPath + "english.lang"))
-            {
-                File.Create(References.SettingsPath + "english.lang").Dispose();
-            }
-            if (!File.Exists(References.SettingsPath + "french.lang"))
-            {
-                File.Create(References.SettingsPath + "french.lang").Dispose();
-            }
-            if (!File.Exists(References.SettingsPath + "german.lang"))
-            {
-                File.Create(References.SettingsPath + "german.lang").Dispose();
-            }
-            if (!File.Exists(References.SettingsPath + "spanish.lang"))
-            {
-                File.Create(References.SettingsPath + "spanish.lang").Dispose();
-
+                File.Create(Reference.SettingsFile).Dispose();
+                File.WriteAllText(Reference.SettingsFile, Resources.settings);
             }
 
-            File.WriteAllText(References.SettingsPath + "english.lang", Resources.english);
-            File.WriteAllText(References.SettingsPath + "french.lang", Resources.french);
-            File.WriteAllText(References.SettingsPath + "german.lang", Resources.german);
-            File.WriteAllText(References.SettingsPath + "spanish.lang", Resources.spanish);
+            // Delete previous lang files
+            if (File.Exists(Reference.SettingsPath + "english.lang")) { File.Delete(Reference.SettingsPath + "english.lang"); }
+            if (File.Exists(Reference.SettingsPath + "french.lang")) { File.Delete(Reference.SettingsPath + "french.lang"); }
+            if (File.Exists(Reference.SettingsPath + "german.lang")) { File.Delete(Reference.SettingsPath + "german.lang"); }
+            if (File.Exists(Reference.SettingsPath + "spanish.lang")) { File.Delete(Reference.SettingsPath + "spanish.lang"); }
+
+            File.WriteAllText(Reference.SettingsPath + "English.lang", Resources.english);
+            File.WriteAllText(Reference.SettingsPath + "Français.lang", Resources.french);
+            File.WriteAllText(Reference.SettingsPath + "Deutsch.lang", Resources.german);
+            File.WriteAllText(Reference.SettingsPath + "Español.lang", Resources.spanish);
+            File.WriteAllText(Reference.SettingsPath + "Italiano.lang", Resources.italian);
         }
 
     }

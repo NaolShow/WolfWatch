@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WolfLib;
 
 namespace WolfWatch
 {
@@ -30,6 +31,8 @@ namespace WolfWatch
         public static String numberplaylists;
         public static String weightplaylists;
 
+        public static String open;
+
         public static bool loadingLang = false;
 
         public static void refreshLang()
@@ -38,114 +41,107 @@ namespace WolfWatch
             {
                 loadingLang = true;
 
-                String lang;
-                int index;
+                // Put langs into combo box
+                Program.mainForm.settings_langcombo.Items.Clear();
+                foreach (String langFile in Directory.GetFiles(Reference.SettingsPath, "*.lang", SearchOption.TopDirectoryOnly))
+                {
+                    Program.mainForm.settings_langcombo.Items.Add(Path.GetFileNameWithoutExtension(langFile));
+                }
 
-                // Search index
-                if (!Int32.TryParse(WolfLib.Rasu.Get(References.SettingsFile, "lang"), out index))
-                { WolfLib.Rasu.Set(References.SettingsFile, "lang", "1"); index = 1; }
+                if (!File.Exists(Reference.SettingsPath + Reference.RSettings.Get("lang") + ".lang"))
+                {
+                    Reference.RSettings.Set("lang", "english");
+                }
 
-                // Determine the language
-                if (index == 0) { lang = "german"; }
-                else if (index == 1) { lang = "english"; }
-                else if (index == 2) { lang = "spanish"; }
-                else if (index == 3) { lang = "french"; }
-                else { lang = "1"; }
-
-                String path = References.SettingsPath + lang + ".lang";
+                Program.mainForm.settings_langcombo.SelectedIndex = Program.mainForm.settings_langcombo.FindStringExact(Reference.RSettings.Get("lang"));
+                Rasu Lang = new Rasu(Reference.SettingsPath + Reference.RSettings.Get("lang") + ".lang");
 
                 // Label
-                Program.mainForm.playlists_playlistslist.Text = WolfLib.Rasu.Get(path, "playlistslist") + ":";
+                Program.mainForm.playlists_playlistslist.Text = Lang.Get("playlistslist") + ":";
 
-                Program.mainForm.editplaylist_editplaylist.Text = WolfLib.Rasu.Get(path, "editplaylist") + ":";
-                Program.mainForm.editvideo_editvideobutton.Text = WolfLib.Rasu.Get(path, "editvideo") + ":";
+                Program.mainForm.editplaylist_editplaylist.Text = Lang.Get("editplaylist") + ":";
+                Program.mainForm.editvideo_editvideobutton.Text = Lang.Get("editvideo") + ":";
 
-                Program.mainForm.addplaylist_addplaylist.Text = WolfLib.Rasu.Get(path, "addplaylist") + ":";
+                Program.mainForm.addplaylist_addplaylist.Text = Lang.Get("addplaylist") + ":";
 
-                Program.mainForm.addplaylist_playlistname.WaterMark = WolfLib.Rasu.Get(path, "playlistname");
-                Program.mainForm.editplaylist_playlistname.WaterMark = WolfLib.Rasu.Get(path, "playlistname");
-                Program.mainForm.editvideo_videoname.WaterMark = WolfLib.Rasu.Get(path, "videoname");
-                Program.mainForm.editvideo_videodescription.WaterMark = WolfLib.Rasu.Get(path, "videodescription");
+                Program.mainForm.addplaylist_playlistname.WaterMark = Lang.Get("playlistname");
+                Program.mainForm.editplaylist_playlistname.WaterMark = Lang.Get("playlistname");
+                Program.mainForm.editvideo_videoname.WaterMark = Lang.Get("videoname");
+                Program.mainForm.editvideo_videodescription.WaterMark = Lang.Get("videodescription");
 
                 // Settings
-                Program.mainForm.settings_advancedsettings.Text = WolfLib.Rasu.Get(path, "advancedsettings");
-                Program.mainForm.settings_generalsettings.Text = WolfLib.Rasu.Get(path, "generalsettings");
-                Program.mainForm.settings_videoplayersettings.Text = WolfLib.Rasu.Get(path, "videoplayersettings");
-                Program.mainForm.settings_informations.Text = WolfLib.Rasu.Get(path, "informations");
-
-                Program.mainForm.settings_langcombo.Items.Clear();
-                Program.mainForm.settings_langcombo.Items.Add(WolfLib.Rasu.Get(path, "german"));
-                Program.mainForm.settings_langcombo.Items.Add(WolfLib.Rasu.Get(path, "english"));
-                Program.mainForm.settings_langcombo.Items.Add(WolfLib.Rasu.Get(path, "spanish"));
-                Program.mainForm.settings_langcombo.Items.Add(WolfLib.Rasu.Get(path, "french"));
-                Program.mainForm.settings_langcombo.SelectedIndex = index;
+                Program.mainForm.settings_advancedsettings.Text = Lang.Get("advancedsettings");
+                Program.mainForm.settings_generalsettings.Text = Lang.Get("generalsettings");
+                Program.mainForm.settings_videoplayersettings.Text = Lang.Get("videoplayersettings");
+                Program.mainForm.settings_informations.Text = Lang.Get("informations");
 
                 Program.mainForm.settings_sortvideolisttype.Items.Clear();
-                Program.mainForm.settings_sortvideolisttype.Items.Add(WolfLib.Rasu.Get(path, "ascending"));
-                Program.mainForm.settings_sortvideolisttype.Items.Add(WolfLib.Rasu.Get(path, "descending"));
-                Program.mainForm.settings_sortvideolisttype.SelectedIndex = Int32.Parse(WolfLib.Rasu.Get(References.SettingsFile, "sort_videos_list_type"));
+                Program.mainForm.settings_sortvideolisttype.Items.Add(Lang.Get("ascending"));
+                Program.mainForm.settings_sortvideolisttype.Items.Add(Lang.Get("descending"));
+                Program.mainForm.settings_sortvideolisttype.SelectedIndex = Int32.Parse(Reference.RSettings.Get("sort_videos_list_type"));
 
-                Program.mainForm.settings_lang.Text = WolfLib.Rasu.Get(path, "language");
-                Program.mainForm.settings_autoupdates.Text = WolfLib.Rasu.Get(path, "autoupdates");
-                Program.mainForm.settings_manualupdatecheck.Text = WolfLib.Rasu.Get(path, "manualupdatecheck");
+                Program.mainForm.settings_lang.Text = Lang.Get("language");
+                Program.mainForm.settings_autoupdates.Text = Lang.Get("autoupdates");
+                Program.mainForm.settings_manualupdatecheck.Text = Lang.Get("manualupdatecheck");
 
-                Program.mainForm.settings_stretchtofit.Text = WolfLib.Rasu.Get(path, "stretchtofit");
-                Program.mainForm.settings_sortvideolist.Text = WolfLib.Rasu.Get(path, "sortvideoslist");
-                maxDropDownPlaylists = WolfLib.Rasu.Get(path, "maxdropdownplaylists");
-                Program.mainForm.settings_maxdropdownplaylists.Text = maxDropDownPlaylists + " (" + int.Parse(WolfLib.Rasu.Get(References.SettingsFile, "max_dropdown_playlists")) + ")";
+                Program.mainForm.settings_stretchtofit.Text = Lang.Get("stretchtofit");
+                Program.mainForm.settings_sortvideolist.Text = Lang.Get("sortvideoslist");
+                maxDropDownPlaylists = Lang.Get("maxdropdownplaylists");
+                Program.mainForm.settings_maxdropdownplaylists.Text = maxDropDownPlaylists + " (" + int.Parse(Reference.RSettings.Get("max_dropdown_playlists")) + ")";
 
-                Program.mainForm.settings_showfiles.Text = WolfLib.Rasu.Get(path, "showfiles");
-                Program.mainForm.settings_resetfiles.Text = WolfLib.Rasu.Get(path, "resetfiles");
+                Program.mainForm.settings_showfiles.Text = Lang.Get("showfiles");
+                Program.mainForm.settings_resetfiles.Text = Lang.Get("resetfiles");
 
-                numberplaylists = WolfLib.Rasu.Get(path, "numberplaylists");
-                Program.mainForm.settings_numberofplaylists.Text = numberplaylists + ": " + Directory.GetDirectories(References.PlaylistsPath).Count();
-                weightplaylists = WolfLib.Rasu.Get(path, "weightplaylists");
+                numberplaylists = Lang.Get("numberplaylists");
+                Program.mainForm.settings_numberofplaylists.Text = numberplaylists + ": " + Directory.GetDirectories(Reference.PlaylistsPath).Count();
+                weightplaylists = Lang.Get("weightplaylists");
                 Program.mainForm.settings_weightofplaylists.Text = weightplaylists + ": " + Settings.GetPlaylistsSize();
 
                 // Buttons
-                Program.mainForm.addplaylist_addplaylistbutton.Text = WolfLib.Rasu.Get(path, "addplaylist");
-                Program.mainForm.editplaylist_editplaylistbutton.Text = WolfLib.Rasu.Get(path, "editplaylist");
-                Program.mainForm.editvideo_editvideobutton.Text = WolfLib.Rasu.Get(path, "editvideo");
-                Program.mainForm.addplaylist_cancel.Text = WolfLib.Rasu.Get(path, "cancel");
-                Program.mainForm.editplaylist_cancel.Text = WolfLib.Rasu.Get(path, "cancel");
-                Program.mainForm.editvideo_cancel.Text = WolfLib.Rasu.Get(path, "cancel");
+                Program.mainForm.addplaylist_addplaylistbutton.Text = Lang.Get("addplaylist");
+                Program.mainForm.editplaylist_editplaylistbutton.Text = Lang.Get("editplaylist");
+                Program.mainForm.editvideo_editvideobutton.Text = Lang.Get("editvideo");
+                Program.mainForm.addplaylist_cancel.Text = Lang.Get("cancel");
+                Program.mainForm.editplaylist_cancel.Text = Lang.Get("cancel");
+                Program.mainForm.editvideo_cancel.Text = Lang.Get("cancel");
 
                 // Tab pages
-                Program.mainForm.tabAddPlaylist.Text = WolfLib.Rasu.Get(path, "addplaylist");
-                Program.mainForm.tabEditPlaylist.Text = WolfLib.Rasu.Get(path, "editplaylist");
-                Program.mainForm.tabPlaylists.Text = WolfLib.Rasu.Get(path, "playlists");
-                Program.mainForm.tabSettings.Text = WolfLib.Rasu.Get(path, "settings");
+                Program.mainForm.tabAddPlaylist.Text = Lang.Get("addplaylist");
+                Program.mainForm.tabEditPlaylist.Text = Lang.Get("editplaylist");
+                Program.mainForm.tabPlaylists.Text = Lang.Get("playlists");
+                Program.mainForm.tabSettings.Text = Lang.Get("settings");
 
                 // Variables
-                playlistExist = WolfLib.Rasu.Get(path, "playlistexist");
-                videoExist = WolfLib.Rasu.Get(path, "videoexist");
-                selectVideo = WolfLib.Rasu.Get(path, "selectvideo");
-                selectPlaylist = WolfLib.Rasu.Get(path, "selectplaylist");
-                deletePlaylist = WolfLib.Rasu.Get(path, "deleteplaylist");
-                deleteVideo = WolfLib.Rasu.Get(path, "deletevideo");
-                donation = WolfLib.Rasu.Get(path, "donation");
-                newVersion = WolfLib.Rasu.Get(path, "newversion");
-                noNewVersion = WolfLib.Rasu.Get(path, "nonewversion");
-                errorConnection = WolfLib.Rasu.Get(path, "errorconnection");
-                deletefiles = WolfLib.Rasu.Get(path, "deletefiles");
-                restartsoftware = WolfLib.Rasu.Get(path, "restartsoftware");
+                playlistExist = Lang.Get("playlistexist");
+                videoExist = Lang.Get("videoexist");
+                selectVideo = Lang.Get("selectvideo");
+                selectPlaylist = Lang.Get("selectplaylist");
+                deletePlaylist = Lang.Get("deleteplaylist");
+                deleteVideo = Lang.Get("deletevideo");
+                donation = Lang.Get("donation");
+                newVersion = Lang.Get("newversion");
+                noNewVersion = Lang.Get("nonewversion");
+                errorConnection = Lang.Get("errorconnection");
+                deletefiles = Lang.Get("deletefiles");
+                restartsoftware = Lang.Get("restartsoftware");
+                open = Lang.Get("open");
 
                 // Playlist list view
-                Program.mainForm.fileName.Text = WolfLib.Rasu.Get(path, "filename");
-                Program.mainForm.fileDescription.Text = WolfLib.Rasu.Get(path, "filedescription");
-                Program.mainForm.fileDuration.Text = WolfLib.Rasu.Get(path, "fileduration");
+                Program.mainForm.fileName.Text = Lang.Get("filename");
+                Program.mainForm.fileDescription.Text = Lang.Get("filedescription");
+                Program.mainForm.fileDuration.Text = Lang.Get("fileduration");
 
                 // Context menu
-                Program.mainForm.addPlaylistToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "addplaylist");
-                Program.mainForm.removePlaylistToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "removeplaylist");
-                Program.mainForm.editPlaylistToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "editplaylist");
-                Program.mainForm.exportPlaylistToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "exportplaylist");
+                Program.mainForm.addPlaylistToolStripMenuItem.Text = Lang.Get("addplaylist");
+                Program.mainForm.removePlaylistToolStripMenuItem.Text = Lang.Get("removeplaylist");
+                Program.mainForm.editPlaylistToolStripMenuItem.Text = Lang.Get("editplaylist");
+                Program.mainForm.exportPlaylistToolStripMenuItem.Text = Lang.Get("exportplaylist");
 
-                Program.mainForm.playVideoToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "playvideo");
-                Program.mainForm.addVideoToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "addvideo");
-                Program.mainForm.removeVideoToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "removevideo");
-                Program.mainForm.editVideoToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "editvideo");
-                Program.mainForm.exportVideoToolStripMenuItem.Text = WolfLib.Rasu.Get(path, "exportvideo");
+                Program.mainForm.playVideoToolStripMenuItem.Text = Lang.Get("playvideo");
+                Program.mainForm.addVideoToolStripMenuItem.Text = Lang.Get("addvideo");
+                Program.mainForm.removeVideoToolStripMenuItem.Text = Lang.Get("removevideo");
+                Program.mainForm.editVideoToolStripMenuItem.Text = Lang.Get("editvideo");
+                Program.mainForm.exportVideoToolStripMenuItem.Text = Lang.Get("exportvideo");
 
                 loadingLang = false;
             }

@@ -45,7 +45,7 @@ namespace WolfWatch
         {
             if (Langs.loadingLang == false)
             {
-                WolfLib.Rasu.Set(References.SettingsFile, "lang", Program.mainForm.settings_langcombo.SelectedIndex.ToString());
+                Reference.RSettings.Set("lang", Program.mainForm.settings_langcombo.Text);
                 LoadLang();
             }
         }
@@ -55,12 +55,12 @@ namespace WolfWatch
 
         private static void SetTheme()
         {
-            Program.mainForm.settings_themecombo.Text = WolfLib.Rasu.Get(References.SettingsFile, "theme");
+            Program.mainForm.settings_themecombo.Text = Reference.RSettings.Get("theme");
         }
 
         private static void LoadTheme()
         {
-            String theme = WolfLib.Rasu.Get(References.SettingsFile, "theme").ToLower();
+            String theme = Reference.RSettings.Get("theme").ToLower();
             if (theme == "light")
             {
                 Program.mainForm.WWTabControl.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -77,7 +77,7 @@ namespace WolfWatch
             }
             else
             {
-                WolfLib.Rasu.Set(References.SettingsFile, "theme", "Light");
+                Reference.RSettings.Set("theme", "Light");
                 LoadTheme();
             }
         }
@@ -85,7 +85,7 @@ namespace WolfWatch
         // Combo box
         public static void GetThemeCombo()
         {
-            WolfLib.Rasu.Set(References.SettingsFile, "theme", Program.mainForm.settings_themecombo.Text);
+            Reference.RSettings.Set("theme", Program.mainForm.settings_themecombo.Text);
             LoadTheme();
 
         }
@@ -95,7 +95,7 @@ namespace WolfWatch
 
         private static void SetAutoUpdates()
         {
-            if (WolfLib.Rasu.Get(References.SettingsFile, "autoupdates").ToLower() == "true")
+            if (Reference.RSettings.Get("autoupdates").ToLower() == "true")
             {
                 Program.mainForm.settings_autoupdates.Checked = true;
             }
@@ -108,7 +108,7 @@ namespace WolfWatch
         // Check box
         public static void GetUpdatesCheck()
         {
-            WolfLib.Rasu.Set(References.SettingsFile, "autoupdates", Program.mainForm.settings_autoupdates.Checked.ToString());
+            Reference.RSettings.Set("autoupdates", Program.mainForm.settings_autoupdates.Checked.ToString());
         }
 
         #endregion
@@ -118,7 +118,7 @@ namespace WolfWatch
         // Set default checked
         private static void SetLoadSortLists()
         {
-            if (WolfLib.Rasu.Get(References.SettingsFile, "sort_videos_list").ToLower() == "true")
+            if (Reference.RSettings.Get("sort_videos_list").ToLower() == "true")
             {
                 Program.mainForm.settings_sortvideolist.Checked = true;
             }
@@ -132,8 +132,8 @@ namespace WolfWatch
         private static void LoadSortLists()
         {
             int index;
-            Int32.TryParse(WolfLib.Rasu.Get(References.SettingsFile, "sort_videos_list_type"), out index);
-            if (WolfLib.Rasu.Get(References.SettingsFile, "sort_videos_list").ToLower() == "true")
+            Int32.TryParse(Reference.RSettings.Get("sort_videos_list_type"), out index);
+            if (Reference.RSettings.Get("sort_videos_list").ToLower() == "true")
             {
                 if (index == 0)
                 { Program.mainForm.inListView.Sorting = SortOrder.Ascending; }
@@ -156,11 +156,11 @@ namespace WolfWatch
         {
             if (Program.mainForm.settings_sortvideolist.Checked == true)
             {
-                WolfLib.Rasu.Set(References.SettingsFile, "sort_videos_list", "True");
+                Reference.RSettings.Set("sort_videos_list", "True");
             }
             else
             {
-                WolfLib.Rasu.Set(References.SettingsFile, "sort_videos_list", "False");
+                Reference.RSettings.Set("sort_videos_list", "False");
             }
             LoadSortLists();
         }
@@ -168,7 +168,7 @@ namespace WolfWatch
         // Combo box
         public static void GetSortVideoListType()
         {
-            WolfLib.Rasu.Set(References.SettingsFile, "sort_videos_list_type", Program.mainForm.settings_sortvideolisttype.SelectedIndex.ToString());
+            Reference.RSettings.Set("sort_videos_list_type", Program.mainForm.settings_sortvideolisttype.SelectedIndex.ToString());
             LoadSortLists();
         }
 
@@ -178,7 +178,7 @@ namespace WolfWatch
         // Set default checked
         private static void SetStretchToFit()
         {
-            if (WolfLib.Rasu.Get(References.SettingsFile, "stretch_to_fit").ToLower() == "true")
+            if (Reference.RSettings.Get("stretch_to_fit").ToLower() == "true")
             {
                 Program.mainForm.settings_stretchtofit.Checked = true;
             }
@@ -191,7 +191,7 @@ namespace WolfWatch
         // Apply settings
         private static void LoadStretchToFit()
         {
-            if (WolfLib.Rasu.Get(References.SettingsFile, "stretch_to_fit").ToLower() == "true")
+            if (Reference.RSettings.Get("stretch_to_fit").ToLower() == "true")
             {
                 Program.mainForm.WMP.stretchToFit = true;
             }
@@ -206,11 +206,11 @@ namespace WolfWatch
         {
             if (Program.mainForm.settings_stretchtofit.Checked == true)
             {
-                WolfLib.Rasu.Set(References.SettingsFile, "stretch_to_fit", "True");
+                Reference.RSettings.Set("stretch_to_fit", "True");
             }
             else
             {
-                WolfLib.Rasu.Set(References.SettingsFile, "stretch_to_fit", "False");
+                Reference.RSettings.Set("stretch_to_fit", "False");
             }
             LoadStretchToFit();
         }
@@ -220,19 +220,19 @@ namespace WolfWatch
 
         private static void SetMaxDropDownPlaylists()
         {
-            Program.mainForm.settings_maxdropdownplaylistsstrack.Value = int.Parse(WolfLib.Rasu.Get(References.SettingsFile, "max_dropdown_playlists"));
+            Program.mainForm.settings_maxdropdownplaylistsstrack.Value = int.Parse(Reference.RSettings.Get("max_dropdown_playlists"));
         }
 
         private static void LoadMaxDropDownPlaylists()
         {
-            Program.mainForm.playlistsList.DropDownHeight = int.Parse(WolfLib.Rasu.Get(References.SettingsFile, "max_dropdown_playlists")) * 25;
-            Program.mainForm.settings_maxdropdownplaylists.Text = Langs.maxDropDownPlaylists + " (" + int.Parse(WolfLib.Rasu.Get(References.SettingsFile, "max_dropdown_playlists")) + ")";
+            Program.mainForm.playlistsList.DropDownHeight = int.Parse(Reference.RSettings.Get("max_dropdown_playlists")) * 25;
+            Program.mainForm.settings_maxdropdownplaylists.Text = Langs.maxDropDownPlaylists + " (" + int.Parse(Reference.RSettings.Get("max_dropdown_playlists")) + ")";
         }
 
         // Track bar
         public static void GetMaxDropDownPlaylistsTrack()
         {
-            WolfLib.Rasu.Set(References.SettingsFile, "max_dropdown_playlists", Program.mainForm.settings_maxdropdownplaylistsstrack.Value.ToString());
+            Reference.RSettings.Set("max_dropdown_playlists", Program.mainForm.settings_maxdropdownplaylistsstrack.Value.ToString());
             LoadMaxDropDownPlaylists();
         }
 
@@ -243,7 +243,7 @@ namespace WolfWatch
         // Button
         public static void GetShowFilesButton()
         {
-            System.Diagnostics.Process.Start(References.MainPath);
+            System.Diagnostics.Process.Start(Reference.MainPath);
         }
 
         // Button
@@ -254,8 +254,8 @@ namespace WolfWatch
                 if (MetroMessageBox.Show(Program.mainForm, Langs.deletefiles, "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     Program.mainForm.WMP.URL = "";
-                    Directory.Delete(References.PlaylistsPath, true);
-                    Directory.Delete(References.SettingsPath, true);
+                    Directory.Delete(Reference.PlaylistsPath, true);
+                    Directory.Delete(Reference.SettingsPath, true);
                     MetroMessageBox.Show(Program.mainForm, Langs.restartsoftware, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Environment.Exit(0);
                 }
@@ -273,13 +273,13 @@ namespace WolfWatch
         // Refresh
         private static void RefreshInformations()
         {
-            Program.mainForm.settings_numberofplaylists.Text = Langs.numberplaylists + ": " + Directory.GetDirectories(References.PlaylistsPath).Count();
+            Program.mainForm.settings_numberofplaylists.Text = Langs.numberplaylists + ": " + Directory.GetDirectories(Reference.PlaylistsPath).Count();
             Program.mainForm.settings_weightofplaylists.Text = Langs.weightplaylists + ": " + GetPlaylistsSize();
         }
 
         public static String GetPlaylistsSize()
         {
-            float size = Directory.GetFiles(References.PlaylistsPath, "*", SearchOption.AllDirectories).Sum(t => (new FileInfo(t).Length));
+            float size = Directory.GetFiles(Reference.PlaylistsPath, "*", SearchOption.AllDirectories).Sum(t => (new FileInfo(t).Length));
             if(size / 1024 > 1)
             {
                 if (size / 1024 / 1024 > 1)

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WolfWatch.Properties;
+using WolfLib;
 
 namespace WolfWatch
 {
@@ -19,12 +20,13 @@ namespace WolfWatch
             try
             {
                 // Update files
-                String ActualSettings = File.ReadAllText(References.SettingsFile);
-                File.WriteAllText(References.SettingsFile, Resources.settings);
-                WolfLib.Rasu.MergeFile(ActualSettings, References.SettingsFile);
+                Rasu SettingsTemplate = new Rasu(Resources.settings);
+                Reference.RSettings.MergeFile(SettingsTemplate);
 
-                // Update version
-                WolfLib.Rasu.Set(References.SettingsFile, "version", Application.ProductVersion);
+                SettingsTemplate.Set("version", Application.ProductVersion);
+
+                File.WriteAllText(Reference.RSettings.GetFilePath(), SettingsTemplate.GetFileContent());
+                Reference.RSettings.ReloadFile();
             }
             catch (Exception ex)
             {

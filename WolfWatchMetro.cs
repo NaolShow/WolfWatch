@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WolfWatch.Properties;
+using WolfLib;
 
 namespace WolfWatch
 {
@@ -44,7 +45,7 @@ namespace WolfWatch
             this.BringToFront();
 
             // Check for updates
-            if (WolfLib.Rasu.Get(References.SettingsFile, "autoupdates").ToLower() == "true")
+            if (Reference.RSettings.Get("autoupdates").ToLower() == "true")
             {
                 Updates.checkForUpdates(false);
             }
@@ -104,7 +105,7 @@ namespace WolfWatch
             try
             {
                 inListView.Items.Clear(); // Clear list
-                foreach (String path in Directory.GetFiles(References.PlaylistsPath + playlistsList.Text))
+                foreach (String path in Directory.GetFiles(Reference.PlaylistsPath + playlistsList.Text))
                 {
                     String ext = Path.GetExtension(path);
                     if (ext != ".info" && ext != ".playinfo")
@@ -136,7 +137,7 @@ namespace WolfWatch
             try
             {
                 playlistsList.Items.Clear();
-                foreach (String playlistName in Directory.GetDirectories(References.PlaylistsPath))
+                foreach (String playlistName in Directory.GetDirectories(Reference.PlaylistsPath))
                 {
                     playlistsList.Items.Add(Path.GetFileName(playlistName));
                 }
@@ -154,12 +155,12 @@ namespace WolfWatch
         {
             try
             {
-                if (!Directory.Exists(References.PlaylistsPath + addplaylist_playlistname.Text))
+                if (!Directory.Exists(Reference.PlaylistsPath + addplaylist_playlistname.Text))
                 {
                     // Create playlist
-                    Directory.CreateDirectory(References.PlaylistsPath + addplaylist_playlistname.Text);
-                    File.Create(References.PlaylistsPath + addplaylist_playlistname.Text + "\\playlist.playinfo").Dispose();
-                    File.WriteAllText(References.PlaylistsPath + addplaylist_playlistname.Text + "\\playlist.playinfo", Resources.playlist);
+                    Directory.CreateDirectory(Reference.PlaylistsPath + addplaylist_playlistname.Text);
+                    File.Create(Reference.PlaylistsPath + addplaylist_playlistname.Text + "\\playlist.playinfo").Dispose();
+                    File.WriteAllText(Reference.PlaylistsPath + addplaylist_playlistname.Text + "\\playlist.playinfo", Resources.playlist);
 
                     // Exit
                     Settings.refreshTabs();
@@ -202,7 +203,7 @@ namespace WolfWatch
                     if (MetroMessageBox.Show(this, Langs.deletePlaylist, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         WMP.URL = "";
-                        Directory.Delete(References.PlaylistsPath + playlistsList.Text, true);
+                        Directory.Delete(Reference.PlaylistsPath + playlistsList.Text, true);
                         refreshPlaylistsList();
                         refreshList();
                     }
@@ -226,9 +227,10 @@ namespace WolfWatch
                 {
                     if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                     {
-                        foreach (String path in Directory.GetFiles(References.PlaylistsPath + playlistsList.Text, "*.info", SearchOption.TopDirectoryOnly))
+                        foreach (String path in Directory.GetFiles(Reference.PlaylistsPath + playlistsList.Text, "*.info", SearchOption.TopDirectoryOnly))
                         {
-                            exportVideo(Path.GetFileNameWithoutExtension(path), folderBrowserDialog.SelectedPath + "\\" + Path.GetFileNameWithoutExtension(path) + WolfLib.Rasu.Get(path, "video_extension"));
+                            Rasu VideoInfo = new Rasu(path);
+                            exportVideo(Path.GetFileNameWithoutExtension(path), folderBrowserDialog.SelectedPath + "\\" + Path.GetFileNameWithoutExtension(path) + VideoInfo.Get("video_extension"));
                         }
                     }
                 }
@@ -276,9 +278,9 @@ namespace WolfWatch
         {
             if (editplaylist_playlistname.Text != playlistsList.Text && editplaylist_playlistname.Text != "")
             {
-                if (Directory.Exists(References.PlaylistsPath + editplaylist_playlistname.Text))
+                if (Directory.Exists(Reference.PlaylistsPath + editplaylist_playlistname.Text))
                 { MetroMessageBox.Show(this, Langs.playlistExist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-                Directory.Move(References.PlaylistsPath + playlistsList.Text, References.PlaylistsPath + editplaylist_playlistname.Text);
+                Directory.Move(Reference.PlaylistsPath + playlistsList.Text, Reference.PlaylistsPath + editplaylist_playlistname.Text);
             }
             Settings.refreshTabs();
             refreshPlaylistsList();
@@ -337,21 +339,27 @@ namespace WolfWatch
             {
                 if (!String.IsNullOrEmpty(playlistsList.Text))
                 {
+                    openFileDialog.Title = Langs.open + " - " + playlistsList.Text;
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        String SelectedPlaylistPath = References.PlaylistsPath + playlistsList.Text + "\\";
+                        String SelectedPlaylistPath = Reference.PlaylistsPath + playlistsList.Text + "\\";
+                        String SelectedPlaylistInfo = SelectedPlaylistPath + Path.GetFileNameWithoutExtension(openFileDialog.FileName) + ".info";
+
+                        Rasu VideoInfo = new Rasu(SelectedPlaylistInfo);
                         if (!File.Exists(SelectedPlaylistPath + Path.GetFileName(openFileDialog.FileName)))
                         {
                             // Copy video
                             File.Copy(openFileDialog.FileName, SelectedPlaylistPath + Path.GetFileName(openFileDialog.FileName));
-                            File.Create(SelectedPlaylistPath + Path.GetFileNameWithoutExtension(openFileDialog.FileName) + ".info").Dispose();
+                            File.Create(SelectedPlaylistInfo).Dispose();
 
                             // Create info file
-                            File.WriteAllText(SelectedPlaylistPath + Path.GetFileNameWithoutExtension(openFileDialog.FileName) + ".info", Resources.video);
+                            File.WriteAllText(SelectedPlaylistInfo, Resources.video);
 
                             // Set up video info file
-                            WolfLib.Rasu.Set(SelectedPlaylistPath + Path.GetFileNameWithoutExtension(openFileDialog.FileName) + ".info", "video_extension", Path.GetExtension(openFileDialog.FileName));
-                            WolfLib.Rasu.Set(SelectedPlaylistPath + Path.GetFileNameWithoutExtension(openFileDialog.FileName) + ".info", "video_file_version", Application.ProductVersion);
+                            VideoInfo.Set("video_extension", Path.GetExtension(openFileDialog.FileName));
+                            VideoInfo.Set("video_file_version", Application.ProductVersion);
+                            VideoInfo.SaveFile();
+
                             refreshList();
                         }
                         else { MetroMessageBox.Show(this, Langs.videoExist, "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -433,15 +441,18 @@ namespace WolfWatch
         {
             try
             {
+                Rasu VideoInfo = new Rasu(wFile.Path + ".info");
                 if (editvideo_videodescription.Text != wFile.Description && !String.IsNullOrEmpty(editvideo_videodescription.Text))
                 {
-                    WolfLib.Rasu.Set(wFile.Path + ".info", "video_description", editvideo_videodescription.Text);
+                    VideoInfo.Set("video_description", editvideo_videodescription.Text);
                 }
                 if (editvideo_videoname.Text != wFile.ToString() && !String.IsNullOrEmpty(editvideo_videoname.Text))
                 {
-                    File.Move(wFile.Path + wFile.Extension, References.PlaylistsPath + playlistsList.Text + "\\" + editvideo_videoname.Text + wFile.Extension);
-                    File.Move(wFile.Path + ".info", References.PlaylistsPath + playlistsList.Text + "\\" + editvideo_videoname.Text + ".info");
+                    String VideoPath = wFile.Path + wFile.Extension;
+                    File.Move(VideoPath, Reference.PlaylistsPath + playlistsList.Text + "\\" + editvideo_videoname.Text + wFile.Extension);
+                    File.Move(VideoInfo.GetFilePath(), Reference.PlaylistsPath + playlistsList.Text + "\\" + editvideo_videoname.Text + ".info");
                 }
+                VideoInfo.SaveFile();
                 Settings.refreshTabs();
                 refreshList();
             }
@@ -478,7 +489,7 @@ namespace WolfWatch
 
         private void exportVideo(String videoName, String outputFile)
         {
-            File.Copy(References.PlaylistsPath + playlistsList.Text + "\\" + videoName + wFile.Extension, outputFile);
+            File.Copy(Reference.PlaylistsPath + playlistsList.Text + "\\" + videoName + wFile.Extension, outputFile);
         }
 
         #endregion
@@ -553,9 +564,10 @@ namespace WolfWatch
           *  COMPLETE CLOSE FORM
           * 
           * 
-          **/
-        private void WolfWatchMetro_FormClosed(object sender, FormClosedEventArgs e)
+          **/ 
+        private void WolfWatchMetro_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Reference.RSettings.SaveFile();
             Environment.Exit(0);
         }
     }

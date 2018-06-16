@@ -25,7 +25,7 @@ namespace WolfWatch
         public async void SplashScreenStart()
         {
             await Task.Delay(500);
-            Startup.Start();
+            Startup.Setup();
         }
     }
 }
